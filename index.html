@@ -4,24 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>StarPass | Your Favourite Stars. Your Next Experience.</title>
+<title>StarPass | Premium Ticket Concierge</title>
 
-<meta name="description" content="Request tickets for your favourite artists, teams and events with StarPass.">
+<meta name="description" content="Your Favourite Stars. Your Next Experience. Submit a private ticket request with StarPass.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root {
-  --black:#0b0b0b;
-  --dark:#121212;
-  --panel:#191919;
-  --gold:#c9a96e;
-  --gold-light:#e0c18a;
+  --black:#0c0c0b;
+  --panel:#171613;
+  --gold:#c7a66a;
+  --gold-light:#e6ce9f;
   --cream:#f5efe4;
-  --muted:#aaa39a;
-  --border:rgba(201,169,110,.23);
-  --green:#78b68b;
-  --red:#d47777;
+  --muted:#aaa49a;
+  --border:rgba(199,166,106,.25);
+  --green:#65bd88;
+  --red:#df7777;
 }
 
 * {
@@ -33,7 +35,7 @@
 body {
   background:var(--black);
   color:var(--cream);
-  font-family:Arial,sans-serif;
+  font-family:'DM Sans',sans-serif;
   line-height:1.6;
 }
 
@@ -45,30 +47,38 @@ button {
   cursor:pointer;
 }
 
+a {
+  color:inherit;
+  text-decoration:none;
+}
+
 header {
-  padding:20px 6%;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:rgba(12,12,11,.96);
   border-bottom:1px solid var(--border);
-  background:#0c0c0c;
+  padding:16px 7%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
 }
 
 .logo {
-  font-family:Georgia,serif;
+  font-family:'Playfair Display',serif;
   font-size:29px;
-  letter-spacing:3px;
   color:var(--gold);
+  letter-spacing:2px;
 }
 
 nav {
   display:flex;
   gap:22px;
+  align-items:center;
 }
 
 nav a {
   color:var(--cream);
-  text-decoration:none;
   font-size:13px;
 }
 
@@ -76,84 +86,151 @@ nav a:hover {
   color:var(--gold);
 }
 
+.container {
+  width:90%;
+  max-width:1150px;
+  margin:auto;
+}
+
 .hero {
-  padding:105px 20px;
+  min-height:570px;
+  display:flex;
+  align-items:center;
   text-align:center;
-  background:linear-gradient(135deg,#1c1811,#090909 75%);
+  background:
+  linear-gradient(rgba(0,0,0,.68),rgba(0,0,0,.82)),
+  radial-gradient(circle at center,#51402a,#11100e 70%);
+  padding:100px 20px;
+}
+
+.hero-content {
+  max-width:800px;
+  margin:auto;
+}
+
+.eyebrow {
+  color:var(--gold);
+  letter-spacing:4px;
+  font-size:11px;
+  text-transform:uppercase;
+  margin-bottom:20px;
+}
+
+h1,h2,h3 {
+  font-family:'Playfair Display',serif;
 }
 
 .hero h1 {
-  font-family:Georgia,serif;
-  color:var(--gold);
-  font-size:clamp(38px,7vw,70px);
-  line-height:1.15;
+  font-size:clamp(42px,7vw,76px);
+  line-height:1.1;
   margin-bottom:22px;
 }
 
-.hero p {
-  max-width:650px;
-  margin:0 auto 28px;
-  color:#c7c0b5;
+.hero h1 span {
+  color:var(--gold);
 }
 
-.button,button {
+.hero p {
+  max-width:600px;
+  margin:0 auto 30px;
+  color:#d0c8bb;
+}
+
+.btn {
+  display:inline-block;
+  padding:13px 25px;
+  border:1px solid var(--gold);
   background:var(--gold);
   color:#111;
-  padding:12px 20px;
-  border:0;
-  border-radius:4px;
-  font-weight:bold;
-  display:inline-block;
-  text-decoration:none;
+  font-weight:700;
+  border-radius:3px;
+  transition:.2s;
 }
 
-button:hover,.button:hover {
+.btn:hover {
   background:var(--gold-light);
 }
 
-.secondary {
-  background:#292929;
-  color:var(--cream);
-  border:1px solid var(--border);
+.btn-outline {
+  background:transparent;
+  color:var(--gold);
 }
 
-.danger {
-  background:#702e2e;
-  color:white;
+.btn-outline:hover {
+  color:#111;
+  background:var(--gold);
 }
 
 section {
-  padding:65px 6%;
+  padding:75px 0;
 }
 
 .section-title {
-  font-family:Georgia,serif;
-  color:var(--gold);
-  font-size:35px;
-  margin-bottom:12px;
+  text-align:center;
+  margin-bottom:35px;
 }
 
-.intro {
+.section-title h2 {
+  font-size:36px;
+  margin-bottom:10px;
+}
+
+.section-title p {
   color:var(--muted);
-  max-width:700px;
+}
+
+.cards {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:20px;
 }
 
 .card {
   background:var(--panel);
   border:1px solid var(--border);
-  border-radius:7px;
-  padding:24px;
-  margin-top:22px;
+  padding:27px;
+  border-radius:5px;
+}
+
+.card h3 {
+  color:var(--gold);
+  font-size:23px;
+  margin-bottom:12px;
+}
+
+.card p {
+  color:var(--muted);
+  font-size:14px;
+}
+
+.form-box {
+  max-width:650px;
+  margin:auto;
+  padding:30px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:5px;
+}
+
+label {
+  display:block;
+  margin:15px 0 7px;
+  font-size:13px;
+  color:var(--gold-light);
 }
 
 input,select,textarea {
   width:100%;
   padding:13px;
-  margin:7px 0 17px;
-  background:#0d0d0d;
-  color:white;
-  border:1px solid #494236;
-  border-radius:4px;
+  background:#0d0d0c;
+  border:1px solid #40382b;
+  color:var(--cream);
+  border-radius:3px;
+  outline:none;
+}
+
+input:focus,select:focus,textarea:focus {
+  border-color:var(--gold);
 }
 
 textarea {
@@ -161,215 +238,184 @@ textarea {
   resize:vertical;
 }
 
-label {
-  display:block;
-  color:#d9cbb4;
-  font-size:13px;
+.form-box button {
+  width:100%;
+  margin-top:20px;
 }
 
-.small {
-  color:var(--muted);
-  font-size:12px;
-}
-
-.status {
-  color:var(--gold);
+.message {
+  margin-top:15px;
   font-size:13px;
-  margin-top:12px;
+  color:var(--gold-light);
+  overflow-wrap:anywhere;
 }
 
 .hidden {
-  display:none!important;
+  display:none !important;
 }
 
-/* DASHBOARD */
-
-.dashboard-header {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:15px;
-  margin-bottom:30px;
+.dashboard {
+  padding:45px 0;
 }
 
-.dashboard-header h2 {
-  font-family:Georgia,serif;
-  color:var(--gold);
-  font-size:32px;
+.dashboard h2 {
+  margin-bottom:20px;
 }
 
-.stats-grid {
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-  margin-bottom:30px;
-}
-
-.stat-card {
+.panel {
   background:var(--panel);
   border:1px solid var(--border);
-  padding:23px;
-  border-radius:6px;
+  padding:22px;
+  margin:20px 0;
+  border-radius:5px;
 }
 
-.stat-card h3 {
-  font-size:12px;
-  font-weight:normal;
-  color:var(--muted);
-  text-transform:uppercase;
-  letter-spacing:1px;
+.stats {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:15px;
 }
 
-.stat-card strong {
+.stat {
+  background:#100f0d;
+  border:1px solid var(--border);
+  padding:20px;
+  border-radius:4px;
+}
+
+.stat strong {
   display:block;
   color:var(--gold);
-  font-size:32px;
-  margin-top:8px;
+  font-size:27px;
+}
+
+.stat span {
+  color:var(--muted);
+  font-size:12px;
 }
 
 .table-wrap {
-  width:100%;
   overflow-x:auto;
 }
 
 table {
   width:100%;
   border-collapse:collapse;
-  min-width:1000px;
+  min-width:750px;
+}
+
+th,td {
+  padding:13px;
+  border-bottom:1px solid var(--border);
+  text-align:left;
+  font-size:12px;
 }
 
 th {
   color:var(--gold);
-  text-align:left;
-  font-size:12px;
-  padding:15px 12px;
-  border-bottom:1px solid var(--border);
-  white-space:nowrap;
 }
 
 td {
-  padding:15px 12px;
-  font-size:13px;
-  border-bottom:1px solid #292929;
-  vertical-align:top;
+  color:#ded7cb;
 }
 
-tr:hover {
-  background:#202020;
+.status {
+  color:var(--gold-light);
+  font-weight:700;
 }
 
-.table-button {
-  padding:8px 11px;
+.small-btn {
+  padding:7px 10px;
   font-size:11px;
   margin:3px;
-}
-
-.badge {
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  font-size:11px;
-  background:#292929;
+  border:1px solid var(--gold);
   color:var(--gold);
+  background:transparent;
 }
 
-.badge.confirmed {
-  color:var(--green);
+.small-btn:hover {
+  background:var(--gold);
+  color:#111;
 }
-
-.badge.cancelled {
-  color:var(--red);
-}
-
-.request-box {
-  padding:18px 0;
-  border-bottom:1px solid var(--border);
-}
-
-/* MODAL */
 
 .modal {
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,.88);
+  z-index:500;
+  background:rgba(0,0,0,.85);
   display:flex;
-  justify-content:center;
   align-items:center;
+  justify-content:center;
   padding:15px;
-  z-index:999;
-  overflow-y:auto;
 }
 
 .modal-content {
   width:100%;
-  max-width:650px;
-  background:#171717;
+  max-width:600px;
+  max-height:90vh;
+  overflow:auto;
+  background:#171613;
   border:1px solid var(--gold);
-  border-radius:7px;
   padding:25px;
-  margin:auto;
+  border-radius:5px;
 }
 
-.modal-content h2 {
+.modal-content h3 {
   color:var(--gold);
-  font-family:Georgia,serif;
-  margin-bottom:18px;
+  margin-bottom:15px;
+  font-size:25px;
 }
 
-.actions {
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
+.close {
+  float:right;
+  color:var(--gold);
+  background:none;
+  border:none;
+  font-size:25px;
+}
+
+.notice {
+  border:1px solid var(--border);
+  padding:18px;
+  color:var(--muted);
+  font-size:13px;
+  margin-top:25px;
 }
 
 footer {
+  padding:35px 15px;
   text-align:center;
-  padding:35px 6%;
   border-top:1px solid var(--border);
   color:var(--muted);
+  font-size:12px;
 }
 
-footer a {
+footer strong {
   color:var(--gold);
 }
 
-@media(max-width:850px) {
-  .stats-grid {
-    grid-template-columns:repeat(2,1fr);
-  }
-}
-
-@media(max-width:600px) {
+@media(max-width:700px) {
   header {
     flex-direction:column;
-    gap:14px;
+    gap:12px;
   }
 
   nav {
-    gap:13px;
     flex-wrap:wrap;
     justify-content:center;
+    gap:13px;
   }
 
-  nav a {
-    font-size:12px;
+  .hero {
+    min-height:480px;
+  }
+
+  .form-box {
+    padding:20px;
   }
 
   section {
-    padding:45px 5%;
-  }
-
-  .stats-grid {
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .stat-card {
-    padding:15px;
-  }
-
-  .stat-card strong {
-    font-size:25px;
+    padding:55px 0;
   }
 }
 </style>
@@ -378,278 +424,278 @@ footer a {
 <body>
 
 <header>
-  <div class="logo">STARPASS</div>
+  <a href="#" class="logo">STARPASS</a>
 
   <nav>
     <a href="#home">Home</a>
     <a href="#about">About</a>
     <a href="#request">Request Tickets</a>
     <a href="#account">Account</a>
+    <a href="#contact">Contact</a>
   </nav>
 </header>
 
-<div class="hero" id="home">
-  <h1>Your Favourite Stars.<br>Your Next Experience.</h1>
+<section class="hero" id="home">
+  <div class="hero-content">
+    <div class="eyebrow">Premium Ticket Concierge</div>
 
-  <p>
-    Discover your next unforgettable experience.
-    Submit a private ticket request for your favourite
-    artists, teams and events.
-  </p>
+    <h1>Your Favourite Stars.<br><span>Your Next Experience.</span></h1>
 
-  <a href="#request" class="button">Request Tickets</a>
-</div>
+    <p>
+      From unforgettable live performances to major sporting events,
+      StarPass helps you submit private ticket requests for experiences
+      worth remembering.
+    </p>
+
+    <a href="#request" class="btn">Submit a Ticket Request</a>
+  </div>
+</section>
 
 <section id="about">
-  <h2 class="section-title">The StarPass Experience</h2>
+  <div class="container">
+    <div class="section-title">
+      <div class="eyebrow">The StarPass Experience</div>
+      <h2>Exceptional Experiences Begin Here</h2>
+      <p>A personalised approach to ticket requests.</p>
+    </div>
 
-  <p class="intro">
-    StarPass makes it simple to submit ticket requests
-    for the experiences you want to enjoy.
-    Tell us what you're looking for and we'll review
-    your request individually.
-  </p>
+    <div class="cards">
+      <div class="card">
+        <h3>Personalised Requests</h3>
+        <p>Tell us the artist, team, event or experience you are interested in.</p>
+      </div>
+
+      <div class="card">
+        <h3>Dedicated Assistance</h3>
+        <p>Our team reviews your request and follows up with relevant details.</p>
+      </div>
+
+      <div class="card">
+        <h3>Clear Communication</h3>
+        <p>Pricing, availability and payment instructions are confirmed individually.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section id="request">
-  <h2 class="section-title">Request Tickets</h2>
+  <div class="container">
+    <div class="section-title">
+      <div class="eyebrow">Private Concierge Service</div>
+      <h2>Request Your Tickets</h2>
+      <p>Tell us what experience you would like to attend.</p>
+    </div>
 
-  <p class="intro">
-    Sign in to your account before submitting a request.
-  </p>
+    <div class="form-box">
+      <form id="bookingForm">
 
-  <div class="card">
+        <label>Artist, Team or Event Name</label>
+        <input id="performer" required placeholder="Enter the name">
 
-    <form id="bookingForm">
+        <label>Country</label>
+        <input id="country" required placeholder="Your country">
 
-      <label>Artist, Team or Event</label>
-      <input id="performer" required>
+        <label>City</label>
+        <input id="city" required placeholder="Preferred event city">
 
-      <label>Country</label>
-      <input id="country" required>
+        <label>Preferred Event Date</label>
+        <input id="eventDate" type="date" required>
 
-      <label>City</label>
-      <input id="city" required>
+        <label>Ticket Type</label>
+        <select id="ticketType" required>
+          <option value="">Select ticket type</option>
+          <option>General Admission</option>
+          <option>Standard</option>
+          <option>Premium</option>
+          <option>VIP</option>
+          <option>Not Sure Yet</option>
+        </select>
 
-      <label>Event Date</label>
-      <input id="eventDate" type="date">
+        <label>Number of Tickets</label>
+        <input id="quantity" type="number" min="1" max="20" required>
 
-      <label>Ticket Type</label>
+        <label>Additional Information</label>
+        <textarea id="notes" placeholder="Tell us about your preferences"></textarea>
 
-      <select id="ticketType" required>
-        <option value="">Select ticket type</option>
-        <option>General Admission</option>
-        <option>Standard</option>
-        <option>VIP</option>
-        <option>Premium</option>
-        <option>Not Sure</option>
-      </select>
+        <button class="btn" type="submit">Submit Request</button>
 
-      <label>Number of Tickets</label>
-      <input id="quantity" type="number" min="1" value="1" required>
+        <div class="message" id="bookingMessage"></div>
 
-      <label>Additional Details</label>
-      <textarea id="notes"></textarea>
+      </form>
 
-      <button type="submit">Submit Request</button>
-
-    </form>
-
-    <p id="bookingMessage" class="status"></p>
-
-    <p class="small">
-      Submitting a request does not guarantee ticket availability.
-      Availability, pricing and fulfilment must be confirmed individually.
-    </p>
-
+      <div class="notice">
+        Submitting a request does not guarantee ticket availability or
+        purchase. All availability, pricing and fulfilment details must
+        be confirmed individually by StarPass.
+      </div>
+    </div>
   </div>
 </section>
 
 <section id="account">
+  <div class="container">
+    <div class="section-title">
+      <div class="eyebrow">Your Account</div>
+      <h2>Customer Access</h2>
+      <p>Sign in to manage your ticket requests.</p>
+    </div>
 
-  <div class="dashboard-header">
-    <h2 class="section-title">Your Account</h2>
-  </div>
+    <div class="form-box" id="authBox">
 
-  <div class="card" id="authPanel">
+      <div id="signupFields">
+        <label>Full Name</label>
+        <input id="fullName" placeholder="Your full name">
 
-    <h3>Welcome to StarPass</h3>
-
-    <form id="authForm">
-
-      <label>Full Name</label>
-      <input id="fullName" placeholder="Full name">
+        <label>Country</label>
+        <input id="signupCountry" placeholder="Your country">
+      </div>
 
       <label>Email Address</label>
-      <input id="authEmail" type="email" required>
+      <input id="authEmail" type="email" placeholder="Email address">
 
       <label>Password</label>
-      <input id="authPassword" type="password" required>
+      <input id="authPassword" type="password" placeholder="Password">
 
-      <div class="actions">
-        <button type="submit">Sign In</button>
+      <button class="btn" id="signupButton" type="button">Create Account</button>
 
-        <button type="button" id="signupBtn" class="secondary">
-          Create Account
-        </button>
-      </div>
+      <button class="btn btn-outline" id="loginButton" type="button">Sign In</button>
 
-    </form>
+      <button class="btn btn-outline" id="resetButton" type="button">Forgot Password?</button>
 
-    <p style="margin-top:15px">
-      <a href="#" id="forgotPassword" style="color:var(--gold)">
-        Forgot your password?
-      </a>
-    </p>
+      <div class="message" id="authMessage"></div>
 
-    <p id="authMessage" class="status"></p>
-
+    </div>
   </div>
+</section>
 
-  <!-- CUSTOMER DASHBOARD -->
+<section class="dashboard hidden" id="customerDashboard">
+  <div class="container">
 
-  <div id="customerPanel" class="hidden">
+    <h2>Customer Dashboard</h2>
 
-    <div class="card">
+    <div class="panel">
+      <p id="welcomeMessage"></p>
+      <button class="small-btn" onclick="logout()">Sign Out</button>
+    </div>
 
-      <div class="dashboard-header">
-        <div>
-          <h2>My Dashboard</h2>
-          <p class="small" id="customerEmail"></p>
-        </div>
-
-        <button id="logoutBtn" class="secondary">
-          Sign Out
-        </button>
+    <div class="panel">
+      <h3>Your Booking Requests</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Event</th>
+              <th>Location</th>
+              <th>Date</th>
+              <th>Tickets</th>
+              <th>Status</th>
+              <th>Payment</th>
+            </tr>
+          </thead>
+          <tbody id="customerRequests"></tbody>
+        </table>
       </div>
-
-      <h3>Your Booking History</h3>
-
-      <div id="customerRequests"></div>
-
     </div>
 
   </div>
+</section>
 
-  <!-- ADMIN DASHBOARD -->
+<section class="dashboard hidden" id="adminDashboard">
+  <div class="container">
 
-  <div id="adminPanel" class="hidden">
+    <h2>StarPass Administration</h2>
 
-    <div class="dashboard-header">
-
-      <div>
-        <h2>Administration</h2>
-        <p class="small">
-          Manage customer ticket requests and reservations.
-        </p>
-      </div>
-
-      <div class="actions">
-        <button id="refreshAdmin" class="secondary">
-          Refresh
-        </button>
-
-        <button id="adminLogoutBtn" class="secondary">
-          Sign Out
-        </button>
-      </div>
-
+    <div class="panel">
+      <p>Administrator Control Centre</p>
+      <button class="small-btn" onclick="logout()">Sign Out</button>
+      <button class="small-btn" onclick="loadAdmin()">Refresh Requests</button>
     </div>
 
-    <div class="stats-grid">
-
-      <div class="stat-card">
-        <h3>Total Requests</h3>
-        <strong id="totalRequests">0</strong>
+    <div class="stats">
+      <div class="stat">
+        <strong id="totalCount">0</strong>
+        <span>Total Requests</span>
       </div>
 
-      <div class="stat-card">
-        <h3>Pending</h3>
-        <strong id="pendingRequests">0</strong>
+      <div class="stat">
+        <strong id="pendingCount">0</strong>
+        <span>Pending</span>
       </div>
 
-      <div class="stat-card">
-        <h3>Under Review</h3>
-        <strong id="reviewRequests">0</strong>
+      <div class="stat">
+        <strong id="reviewCount">0</strong>
+        <span>Under Review</span>
       </div>
 
-      <div class="stat-card">
-        <h3>Confirmed</h3>
-        <strong id="confirmedRequests">0</strong>
+      <div class="stat">
+        <strong id="confirmedCount">0</strong>
+        <span>Confirmed</span>
       </div>
-
     </div>
 
-    <div class="card">
-
-      <h3 style="color:var(--gold);margin-bottom:20px">
-        Customer Requests
-      </h3>
+    <div class="panel">
+      <h3>All Customer Requests</h3>
 
       <div class="table-wrap">
-
         <table>
-
           <thead>
             <tr>
               <th>Customer</th>
               <th>Event</th>
               <th>Location</th>
-              <th>Event Date</th>
-              <th>Ticket Type</th>
-              <th>Quantity</th>
+              <th>Date</th>
+              <th>Tickets</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
 
-          <tbody id="adminRequests">
-            <tr>
-              <td colspan="8">Loading requests...</td>
-            </tr>
-          </tbody>
-
+          <tbody id="adminRequests"></tbody>
         </table>
-
       </div>
 
-      <p id="adminMessage" class="status"></p>
-
+      <div class="message" id="adminMessage"></div>
     </div>
 
   </div>
+</section>
 
+<section id="contact">
+  <div class="container">
+    <div class="section-title">
+      <div class="eyebrow">Get In Touch</div>
+      <h2>Contact StarPass</h2>
+      <p>Have a question about your request? Reach out to us.</p>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Email</h3>
+        <p>starpasstickets@gmail.com</p>
+      </div>
+
+      <div class="card">
+        <h3>Customer Support</h3>
+        <p>Contact us by email for assistance with your request.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <footer>
-
-  <div class="logo">STARPASS</div>
-
+  <strong>STARPASS</strong>
   <p>Your Favourite Stars. Your Next Experience.</p>
-
-  <p>
-    <a href="mailto:starpasstickets@gmail.com">
-      starpasstickets@gmail.com
-    </a>
-  </p>
-
-  <p class="small" style="margin-top:15px">
-    StarPass is an independent ticket-request service.
-    It does not claim official partnerships with artists,
-    teams or event organisers. Requests are subject to
-    availability and individual confirmation.
-  </p>
-
+  <p>© 2026 StarPass. All rights reserved.</p>
 </footer>
-
 
 <!-- ADMIN CONTACT MODAL -->
 
-<div id="contactModal" class="modal hidden">
-
+<div class="modal hidden" id="contactModal">
   <div class="modal-content">
 
-    <h2>Contact Customer</h2>
+    <button class="close" onclick="closeContact()">×</button>
+
+    <h3>Contact Customer</h3>
 
     <form id="contactForm">
 
@@ -659,11 +705,13 @@ footer a {
       <label>Email Subject</label>
       <input id="mailSubject" required>
 
+      <label>Message</label>
+      <textarea id="mailBody" required></textarea>
+
       <label>Ticket Amount</label>
       <input id="mailAmount" type="number" min="0" step="0.01">
 
       <label>Currency</label>
-
       <select id="mailCurrency">
         <option>USD</option>
         <option>GBP</option>
@@ -672,58 +720,32 @@ footer a {
         <option>AUD</option>
       </select>
 
-      <label>Accepted Payment Method</label>
+      <label>Payment Method</label>
       <input id="mailMethod" placeholder="Payment method">
 
       <label>Secure Payment Link</label>
       <input id="mailPaymentLink" type="url" placeholder="https://">
 
       <label>Payment Status</label>
-
       <select id="mailPaymentStatus">
         <option>Not requested</option>
         <option>Payment requested</option>
-        <option>Partially paid</option>
+        <option>Payment pending</option>
         <option>Paid</option>
-        <option>Refunded</option>
       </select>
 
-      <label>Email Message</label>
-      <textarea id="mailBody" required></textarea>
+      <button class="btn" type="submit">Save Quote & Open Email</button>
 
-      <div class="actions">
-
-        <button type="button" id="saveQuoteBtn">
-          Save Quote & Payment Status
-        </button>
-
-        <button type="submit">
-          Review & Send Email
-        </button>
-
-        <button type="button" id="closeModal" class="secondary">
-          Close
-        </button>
-
-      </div>
+      <div class="message" id="modalMessage"></div>
 
     </form>
-
-    <p id="modalMessage" class="status"></p>
-
-    <p class="small">
-      Email opens as a draft for you to review and send.
-      StarPass does not automatically send emails.
-    </p>
-
   </div>
-
 </div>
 
-
 <script>
-
-/* SUPABASE CONFIGURATION */
+/* ===================================
+   SUPABASE CONFIGURATION
+=================================== */
 
 const SUPABASE_URL =
 "https://rfelrcunkczlunswqmer.supabase.co";
@@ -731,774 +753,586 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
 "sb_publishable_sxjlh7kAAiyrESnjR_9FZQ_Fk4Ik_nu";
 
-const supabaseClient = window.supabase.createClient(
+const db = window.supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
 
-const $ = id => document.getElementById(id);
-
 let currentUser = null;
-let currentRole = "customer";
+let currentProfile = null;
 let selectedRequest = null;
 
-
-/* SAFE HTML */
-
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, c => ({
-    "&":"&amp;",
-    "<":"&lt;",
-    ">":"&gt;",
-    '"':"&quot;",
-    "'":"&#039;"
-  })[c]);
-}
+const $ = id => document.getElementById(id);
 
 
-/* AUTHENTICATION */
+/* ===================================
+   AUTHENTICATION
+=================================== */
 
-$("authForm").addEventListener("submit", async e => {
+$("signupButton").addEventListener("click", signup);
+$("loginButton").addEventListener("click", login);
+$("resetButton").addEventListener("click", resetPassword);
 
-  e.preventDefault();
+async function signup() {
 
+  const name = $("fullName").value.trim();
+  const country = $("signupCountry").value.trim();
   const email = $("authEmail").value.trim();
   const password = $("authPassword").value;
 
-  $("authMessage").textContent = "Signing in...";
+  if (!name || !country || !email || !password) {
+    $("authMessage").textContent =
+      "Please complete all registration fields.";
+    return;
+  }
 
-  const {error} = await supabaseClient.auth.signInWithPassword({
+  const { data, error } = await db.auth.signUp({
     email,
-    password
+    password,
+    options: {
+      emailRedirectTo:
+        "https://booknowglobal.github.io/starpass-tickets/",
+      data: {
+        full_name: name,
+        country: country
+      }
+    }
   });
 
-  if(error) {
+  if (error) {
     $("authMessage").textContent = error.message;
     return;
   }
 
-  $("authMessage").textContent = "Login successful.";
-
-  await loadSession();
-
-});
+  $("authMessage").textContent =
+    "Account created. Please check your email to confirm your account.";
+}
 
 
-/* SIGN UP */
-
-$("signupBtn").addEventListener("click", async () => {
+async function login() {
 
   const email = $("authEmail").value.trim();
   const password = $("authPassword").value;
-  const fullName = $("fullName").value.trim();
 
-  if(!email || !password || !fullName) {
+  if (!email || !password) {
     $("authMessage").textContent =
-      "Enter your full name, email and password.";
+      "Enter your email and password.";
     return;
   }
 
-  $("authMessage").textContent = "Creating account...";
-
-  const {error} = await supabaseClient.auth.signUp({
-
+  const { error } = await db.auth.signInWithPassword({
     email,
-    password,
-
-    options: {
-      emailRedirectTo:
-        "https://booknowglobal.github.io/starpass-tickets/",
-
-      data: {
-        full_name:fullName
-      }
-    }
-
+    password
   });
 
-  $("authMessage").textContent = error
-    ? error.message
-    : "Account created. Check your email to confirm your account.";
+  if (error) {
+    $("authMessage").textContent = error.message;
+    return;
+  }
 
-});
+  $("authMessage").textContent = "Signed in successfully.";
+  await checkSession();
+}
 
 
-/* PASSWORD RESET */
-
-$("forgotPassword").addEventListener("click", async e => {
-
-  e.preventDefault();
+async function resetPassword() {
 
   const email = $("authEmail").value.trim();
 
-  if(!email) {
+  if (!email) {
     $("authMessage").textContent =
       "Enter your email address first.";
     return;
   }
 
-  const {error} =
-    await supabaseClient.auth.resetPasswordForEmail(email, {
-
-      redirectTo:
-        "https://booknowglobal.github.io/starpass-tickets/"
-
-    });
+  const { error } = await db.auth.resetPasswordForEmail(email, {
+    redirectTo:
+      "https://booknowglobal.github.io/starpass-tickets/"
+  });
 
   $("authMessage").textContent = error
     ? error.message
-    : "If the account exists, password reset instructions have been sent.";
+    : "Password reset instructions have been sent if the account exists.";
+}
 
-});
+
+async function logout() {
+
+  await db.auth.signOut();
+
+  currentUser = null;
+  currentProfile = null;
+
+  $("customerDashboard").classList.add("hidden");
+  $("adminDashboard").classList.add("hidden");
+  $("authBox").classList.remove("hidden");
+
+  window.location.hash = "account";
+}
 
 
-/* LOAD SESSION */
+/* ===================================
+   SESSION AND PROFILE
+=================================== */
 
-async function loadSession() {
+async function checkSession() {
 
-  const {data,error} =
-    await supabaseClient.auth.getSession();
+  const { data } = await db.auth.getSession();
 
-  if(error) {
+  currentUser = data.session?.user || null;
+
+  if (!currentUser) return;
+
+  const { data: profile, error } = await db
+    .from("profiles")
+    .select("*")
+    .eq("id", currentUser.id)
+    .maybeSingle();
+
+  if (error) {
     console.error(error);
     return;
   }
 
-  currentUser = data.session?.user || null;
+  currentProfile = profile;
 
-  $("authPanel").classList.toggle(
-    "hidden",
-    !!currentUser
-  );
+  $("authBox").classList.add("hidden");
 
-  $("customerPanel").classList.add("hidden");
-  $("adminPanel").classList.add("hidden");
+  if (profile?.role === "admin") {
 
-  if(!currentUser) {
-    currentRole = "customer";
-    return;
-  }
+    $("adminDashboard").classList.remove("hidden");
+    $("customerDashboard").classList.add("hidden");
 
-  $("customerEmail").textContent = currentUser.email;
-
-  /*
-    IMPORTANT:
-    Read the user's role directly from profiles.
-    No customer/admin role is assigned by the browser.
-  */
-
-  const {data:profile,error:profileError} =
-    await supabaseClient
-      .from("profiles")
-      .select("id,email,role")
-      .eq("id",currentUser.id)
-      .single();
-
-  if(profileError) {
-    console.error(profileError);
-
-    $("authMessage").textContent =
-      "Unable to load your account profile.";
-
-    return;
-  }
-
-  currentRole = profile.role || "customer";
-
-  if(currentRole === "admin") {
-
-    $("adminPanel").classList.remove("hidden");
-
-    await loadAdminRequests();
+    await loadAdmin();
 
   } else {
 
-    $("customerPanel").classList.remove("hidden");
+    $("customerDashboard").classList.remove("hidden");
+    $("adminDashboard").classList.add("hidden");
+
+    $("welcomeMessage").textContent =
+      "Welcome, " + (profile?.full_name || currentUser.email);
 
     await loadCustomerRequests();
-
   }
-
 }
 
 
-/* CUSTOMER BOOKING REQUEST */
+/* ===================================
+   BOOKING REQUEST
+=================================== */
 
 $("bookingForm").addEventListener("submit", async e => {
 
   e.preventDefault();
 
-  if(!currentUser) {
+  if (!currentUser) {
     $("bookingMessage").textContent =
-      "Please sign in before submitting a request.";
+      "Please create an account or sign in before submitting a request.";
     return;
   }
 
-  const request = {
-
-    user_id:currentUser.id,
-
-    performer:$("performer").value.trim(),
-
-    country:$("country").value.trim(),
-
-    city:$("city").value.trim(),
-
-    event_date:$("eventDate").value || null,
-
-    ticket_type:$("ticketType").value,
-
-    quantity:Number($("quantity").value),
-
-    notes:$("notes").value.trim()
-
+  const booking = {
+    user_id: currentUser.id,
+    performer: $("performer").value.trim(),
+    country: $("country").value.trim(),
+    city: $("city").value.trim(),
+    event_date: $("eventDate").value,
+    ticket_type: $("ticketType").value,
+    quantity: Number($("quantity").value),
+    notes: $("notes").value.trim(),
+    status: "Pending"
   };
 
-  $("bookingMessage").textContent = "Submitting request...";
-
-  const {error} = await supabaseClient
+  const { error } = await db
     .from("booking_requests")
-    .insert(request);
+    .insert(booking);
 
-  if(error) {
+  if (error) {
     $("bookingMessage").textContent = error.message;
     return;
   }
 
-  $("bookingMessage").textContent =
-    "Your ticket request was submitted successfully.";
-
   $("bookingForm").reset();
+
+  $("bookingMessage").textContent =
+    "Your request has been submitted successfully.";
 
   await loadCustomerRequests();
 
 });
 
 
-/* CUSTOMER BOOKING HISTORY */
+/* ===================================
+   CUSTOMER DASHBOARD
+=================================== */
 
 async function loadCustomerRequests() {
 
-  const {data,error} = await supabaseClient
+  if (!currentUser) return;
+
+  const { data, error } = await db
     .from("booking_requests")
     .select("*")
-    .eq("user_id",currentUser.id)
-    .order("created_at",{ascending:false});
+    .eq("user_id", currentUser.id)
+    .order("created_at", { ascending: false });
 
-  if(error) {
-    $("customerRequests").textContent = error.message;
-    return;
-  }
-
-  if(!data.length) {
-
+  if (error) {
     $("customerRequests").innerHTML =
-      "<p class='small'>You have no booking requests yet.</p>";
-
+      `<tr><td colspan="6">${escapeHTML(error.message)}</td></tr>`;
     return;
-
   }
 
-  $("customerRequests").innerHTML = data.map(r => `
+  $("customerRequests").innerHTML = "";
 
-    <div class="request-box">
+  if (!data || !data.length) {
+    $("customerRequests").innerHTML =
+      "<tr><td colspan='6'>No booking requests yet.</td></tr>";
+    return;
+  }
 
-      <h3>${escapeHTML(r.performer)}</h3>
+  data.forEach(row => {
 
-      <p class="small">
-        ${escapeHTML(r.city)}, ${escapeHTML(r.country)}
-      </p>
+    const tr = document.createElement("tr");
 
-      <p class="small">
-        Date: ${escapeHTML(r.event_date || "Not specified")}
-      </p>
+    tr.innerHTML = `
+      <td>${escapeHTML(row.performer)}</td>
+      <td>${escapeHTML(row.city)}, ${escapeHTML(row.country)}</td>
+      <td>${escapeHTML(row.event_date)}</td>
+      <td>${escapeHTML(row.ticket_type)} × ${Number(row.quantity)}</td>
+      <td class="status">${escapeHTML(row.status)}</td>
+      <td>${escapeHTML(row.payment_status || "Not requested")}</td>
+    `;
 
-      <p class="small">
-        Ticket type: ${escapeHTML(r.ticket_type)}
-      </p>
+    $("customerRequests").appendChild(tr);
 
-      <p class="small">
-        Quantity: ${r.quantity}
-      </p>
-
-      <p class="status">
-        Status: ${escapeHTML(r.status || "Pending")}
-      </p>
-
-    </div>
-
-  `).join("");
-
+  });
 }
 
 
-/* ADMIN DASHBOARD */
+/* ===================================
+   ADMIN DASHBOARD
+=================================== */
 
-async function loadAdminRequests() {
+async function loadAdmin() {
 
-  $("adminMessage").textContent = "Loading customer requests...";
+  if (currentProfile?.role !== "admin") return;
 
-  /*
-    IMPORTANT FIX:
-
-    We retrieve booking_requests first,
-    then retrieve profiles separately.
-
-    This avoids the missing foreign-key relationship error.
-  */
-
-  const {data:requests,error} = await supabaseClient
+  const { data: requests, error } = await db
     .from("booking_requests")
     .select("*")
-    .order("created_at",{ascending:false});
+    .order("created_at", { ascending: false });
 
-  if(error) {
-
+  if (error) {
     $("adminMessage").textContent = error.message;
-
     return;
-
   }
 
   const rows = requests || [];
 
-  /* DASHBOARD STATISTICS */
+  $("totalCount").textContent = rows.length;
 
-  $("totalRequests").textContent = rows.length;
+  $("pendingCount").textContent =
+    rows.filter(r => r.status === "Pending").length;
 
-  $("pendingRequests").textContent =
-    rows.filter(r => r.status === "Pending" || !r.status).length;
-
-  $("reviewRequests").textContent =
+  $("reviewCount").textContent =
     rows.filter(r => r.status === "Under Review").length;
 
-  $("confirmedRequests").textContent =
+  $("confirmedCount").textContent =
     rows.filter(r => r.status === "Confirmed").length;
 
+  const userIds = [...new Set(rows.map(r => r.user_id))];
 
-  if(!rows.length) {
+  let profiles = [];
 
-    $("adminRequests").innerHTML = `
-      <tr>
-        <td colspan="8">
-          No customer requests have been submitted yet.
-        </td>
-      </tr>
-    `;
+  if (userIds.length) {
 
-    $("adminMessage").textContent = "";
+    const { data, error: profileError } = await db
+      .from("profiles")
+      .select("id,full_name,email")
+      .in("id", userIds);
 
-    return;
-
-  }
-
-
-  /* FETCH CUSTOMER PROFILES SEPARATELY */
-
-  const userIds = [
-    ...new Set(rows.map(r => r.user_id).filter(Boolean))
-  ];
-
-  let profileMap = {};
-
-  if(userIds.length) {
-
-    const {data:profiles,error:profilesError} =
-      await supabaseClient
-        .from("profiles")
-        .select("id,full_name,email,country")
-        .in("id",userIds);
-
-    if(profilesError) {
-
-      $("adminMessage").textContent =
-        "Requests loaded, but customer details could not be retrieved: " +
-        profilesError.message;
-
-    } else {
-
-      (profiles || []).forEach(profile => {
-        profileMap[profile.id] = profile;
-      });
-
+    if (profileError) {
+      $("adminMessage").textContent = profileError.message;
+      return;
     }
 
+    profiles = data || [];
   }
 
+  const profileMap = {};
 
-  /* DISPLAY REQUESTS */
+  profiles.forEach(profile => {
+    profileMap[profile.id] = profile;
+  });
 
-  $("adminRequests").innerHTML = rows.map(r => {
+  $("adminRequests").innerHTML = "";
 
-    const customer = profileMap[r.user_id] || {};
+  if (!rows.length) {
+    $("adminRequests").innerHTML =
+      "<tr><td colspan='7'>No customer requests yet.</td></tr>";
+    return;
+  }
 
-    const status = r.status || "Pending";
+  rows.forEach(row => {
 
-    const statusClass =
-      status === "Confirmed" ? "confirmed" :
-      status === "Cancelled" || status === "Declined"
-      ? "cancelled" : "";
+    const profile = profileMap[row.user_id] || {};
 
-    return `
+    const tr = document.createElement("tr");
 
-      <tr>
+    tr.innerHTML = `
+      <td>
+        ${escapeHTML(profile.full_name || "Customer")}
+        <br>
+        ${escapeHTML(profile.email || "")}
+      </td>
 
-        <td>
+      <td>${escapeHTML(row.performer)}</td>
 
-          <strong>
-            ${escapeHTML(customer.full_name || "Customer")}
-          </strong>
+      <td>${escapeHTML(row.city)}, ${escapeHTML(row.country)}</td>
 
-          <br>
+      <td>${escapeHTML(row.event_date)}</td>
 
-          <span class="small">
-            ${escapeHTML(customer.email || "Email unavailable")}
-          </span>
+      <td>${escapeHTML(row.ticket_type)} × ${Number(row.quantity)}</td>
 
-        </td>
+      <td class="status">${escapeHTML(row.status)}</td>
 
-        <td>
-          ${escapeHTML(r.performer)}
-        </td>
-
-        <td>
-          ${escapeHTML(r.city)}, ${escapeHTML(r.country)}
-        </td>
-
-        <td>
-          ${escapeHTML(r.event_date || "Not specified")}
-        </td>
-
-        <td>
-          ${escapeHTML(r.ticket_type)}
-        </td>
-
-        <td>
-          ${r.quantity}
-        </td>
-
-        <td>
-          <span class="badge ${statusClass}">
-            ${escapeHTML(status)}
-          </span>
-
-          <select id="status-${r.id}">
-            ${[
-              "Pending",
-              "Under Review",
-              "Confirmed",
-              "Declined",
-              "Completed"
-            ].map(s => `
-              <option value="${s}" ${status === s ? "selected" : ""}>
-                ${s}
-              </option>
-            `).join("")}
-          </select>
-
-          <button
-            class="table-button"
-            onclick="updateStatus('${r.id}')">
-            Save Status
-          </button>
-
-        </td>
-
-        <td>
-
-          <button
-            class="table-button"
-            onclick="viewRequest('${r.id}')">
-            View
-          </button>
-
-          <button
-            class="table-button"
-            onclick="openContact('${r.id}')">
-            Contact
-          </button>
-
-        </td>
-
-      </tr>
-
+      <td>
+        <button class="small-btn" data-action="view">View</button>
+        <button class="small-btn" data-action="status">Status</button>
+        <button class="small-btn" data-action="contact">Contact</button>
+      </td>
     `;
 
-  }).join("");
+    tr.querySelector('[data-action="view"]').addEventListener(
+      "click", () => viewRequest(row)
+    );
 
-  $("adminMessage").textContent =
-    "Customer requests loaded successfully.";
+    tr.querySelector('[data-action="status"]').addEventListener(
+      "click", () => changeStatus(row)
+    );
+
+    tr.querySelector('[data-action="contact"]').addEventListener(
+      "click", () => openContact(row, profile)
+    );
+
+    $("adminRequests").appendChild(tr);
+
+  });
+}
+
+
+/* ===================================
+   VIEW REQUEST
+=================================== */
+
+function viewRequest(row) {
+
+  alert(
+    "BOOKING REQUEST\n\n" +
+    "Event: " + row.performer + "\n" +
+    "Country: " + row.country + "\n" +
+    "City: " + row.city + "\n" +
+    "Date: " + row.event_date + "\n" +
+    "Ticket Type: " + row.ticket_type + "\n" +
+    "Quantity: " + row.quantity + "\n" +
+    "Notes: " + (row.notes || "None") + "\n" +
+    "Status: " + row.status
+  );
 
 }
 
 
-/* VIEW REQUEST DETAILS */
+/* ===================================
+   CHANGE BOOKING STATUS
+=================================== */
 
-window.viewRequest = async function(id) {
+async function changeStatus(row) {
 
-  const {data,error} = await supabaseClient
-    .from("booking_requests")
-    .select("*")
-    .eq("id",id)
-    .single();
+  const choices = [
+    "Pending",
+    "Under Review",
+    "Confirmed",
+    "Declined",
+    "Completed"
+  ];
 
-  if(error) {
-    alert(error.message);
-    return;
-  }
-
-  const {data:profile} = await supabaseClient
-    .from("profiles")
-    .select("full_name,email,country")
-    .eq("id",data.user_id)
-    .single();
-
-  alert(
-
-    "CUSTOMER REQUEST DETAILS\n\n" +
-
-    "Customer: " + (profile?.full_name || "Customer") + "\n" +
-
-    "Email: " + (profile?.email || "Unavailable") + "\n\n" +
-
-    "Event: " + data.performer + "\n" +
-
-    "Country: " + data.country + "\n" +
-
-    "City: " + data.city + "\n" +
-
-    "Date: " + (data.event_date || "Not specified") + "\n" +
-
-    "Ticket Type: " + data.ticket_type + "\n" +
-
-    "Quantity: " + data.quantity + "\n\n" +
-
-    "Additional Notes:\n" + (data.notes || "None")
-
+  const newStatus = prompt(
+    "Enter the new status:\n\n" + choices.join("\n"),
+    row.status
   );
 
-};
+  if (!newStatus) return;
 
-
-/* UPDATE REQUEST STATUS */
-
-window.updateStatus = async function(id) {
-
-  if(currentRole !== "admin") {
-    alert("Administrator access required.");
+  if (!choices.includes(newStatus)) {
+    alert("Invalid status selected.");
     return;
   }
 
-  const status = $("status-" + id).value;
-
-  const {error} = await supabaseClient
+  const { error } = await db
     .from("booking_requests")
-    .update({status})
-    .eq("id",id);
+    .update({ status: newStatus })
+    .eq("id", row.id);
 
-  if(error) {
+  if (error) {
     alert(error.message);
     return;
   }
 
-  $("adminMessage").textContent =
-    "Request status updated successfully.";
-
-  await loadAdminRequests();
-
-};
+  await loadAdmin();
+}
 
 
-/* OPEN CONTACT CUSTOMER */
+/* ===================================
+   CONTACT CUSTOMER
+=================================== */
 
-window.openContact = async function(id) {
+function openContact(row, profile) {
 
-  if(currentRole !== "admin") {
-    alert("Administrator access required.");
-    return;
-  }
+  selectedRequest = row;
 
-  const {data:request,error} = await supabaseClient
-    .from("booking_requests")
-    .select("*")
-    .eq("id",id)
-    .single();
-
-  if(error) {
-    alert(error.message);
-    return;
-  }
-
-  const {data:customer} = await supabaseClient
-    .from("profiles")
-    .select("full_name,email")
-    .eq("id",request.user_id)
-    .single();
-
-  selectedRequest = id;
-
-  $("mailTo").value = customer?.email || "";
+  $("mailTo").value = profile.email || "";
 
   $("mailSubject").value =
-    "Your StarPass Ticket Request";
-
-  $("mailAmount").value =
-    request.quoted_amount || "";
-
-  $("mailCurrency").value =
-    request.currency || "USD";
-
-  $("mailMethod").value =
-    request.preferred_payment_method || "";
-
-  $("mailPaymentLink").value =
-    request.payment_link || "";
-
-  $("mailPaymentStatus").value =
-    request.payment_status || "Not requested";
+    "Your StarPass Ticket Request - " + row.performer;
 
   $("mailBody").value =
-
-`Hello ${customer?.full_name || "Customer"},
+`Hello ${profile.full_name || "Valued Customer"},
 
 Thank you for choosing StarPass.
 
-We have reviewed your ticket request for ${request.performer}.
+We are contacting you regarding your ticket request for ${row.performer}.
 
-Request details:
+Our team has reviewed your request and would like to share the following information with you.
 
-Event: ${request.performer}
-Location: ${request.city}, ${request.country}
-Event date: ${request.event_date || "To be confirmed"}
-Ticket type: ${request.ticket_type}
-Quantity: ${request.quantity}
+Please review the payment details below.
 
-We will confirm availability and the final arrangements individually.
+If you have any questions, please reply to this email.
 
-Kind regards,
-StarPass`;
+Thank you for choosing StarPass.`;
+
+  $("mailAmount").value = row.quoted_amount || "";
+
+  $("mailCurrency").value = row.currency || "USD";
+
+  $("mailMethod").value =
+    row.preferred_payment_method || "";
+
+  $("mailPaymentLink").value =
+    row.payment_link || "";
+
+  $("mailPaymentStatus").value =
+    row.payment_status || "Not requested";
 
   $("modalMessage").textContent = "";
 
   $("contactModal").classList.remove("hidden");
 
-};
+}
 
 
-/* SAVE QUOTE AND PAYMENT STATUS */
+function closeContact() {
 
-$("saveQuoteBtn").addEventListener("click", async () => {
+  $("contactModal").classList.add("hidden");
+  selectedRequest = null;
 
-  if(!selectedRequest || currentRole !== "admin") return;
-
-  const amount = $("mailAmount").value;
-
-  const currency = $("mailCurrency").value;
-
-  const method = $("mailMethod").value.trim();
-
-  const link = $("mailPaymentLink").value.trim();
-
-  const paymentStatus = $("mailPaymentStatus").value;
-
-  if(link && !/^https:\/\//i.test(link)) {
-
-    $("modalMessage").textContent =
-      "Please enter a valid HTTPS payment link.";
-
-    return;
-
-  }
-
-  const {error} = await supabaseClient
-    .from("booking_requests")
-    .update({
-
-      quoted_amount:amount ? Number(amount) : null,
-
-      currency,
-
-      preferred_payment_method:method || null,
-
-      payment_link:link || null,
-
-      payment_status:paymentStatus
-
-    })
-    .eq("id",selectedRequest);
-
-  if(error) {
-
-    $("modalMessage").textContent = error.message;
-
-    return;
-
-  }
-
-  $("modalMessage").textContent =
-    "Quote and payment details saved successfully.";
-
-  await loadAdminRequests();
-
-});
+}
 
 
-/* EMAIL DRAFT WITH PAYMENT DETAILS */
+/* ===================================
+   SAVE PAYMENT INFORMATION
+=================================== */
 
-$("contactForm").addEventListener("submit",async e => {
+$("contactForm").addEventListener("submit", async e => {
 
   e.preventDefault();
 
-  const to = $("mailTo").value.trim();
-
-  const subject = $("mailSubject").value.trim();
+  if (!selectedRequest) return;
 
   const amount = $("mailAmount").value.trim();
-
   const currency = $("mailCurrency").value;
-
   const method = $("mailMethod").value.trim();
-
   const link = $("mailPaymentLink").value.trim();
-
   const paymentStatus = $("mailPaymentStatus").value;
 
-  if(link && !/^https:\/\//i.test(link)) {
+  if (link && !/^https:\/\//i.test(link)) {
 
     $("modalMessage").textContent =
       "Please enter a valid HTTPS payment link.";
 
     return;
-
   }
 
+  const { error } = await db
+    .from("booking_requests")
+    .update({
+      quoted_amount: amount ? Number(amount) : null,
+      currency: currency,
+      preferred_payment_method: method || null,
+      payment_link: link || null,
+      payment_status: paymentStatus
+    })
+    .eq("id", selectedRequest.id);
+
+  if (error) {
+
+    $("modalMessage").textContent =
+      "Unable to save payment details: " + error.message;
+
+    return;
+  }
+
+  $("modalMessage").textContent =
+    "Payment information saved. Preparing email...";
+
+  const to = $("mailTo").value.trim();
+  const subject = $("mailSubject").value.trim();
   const message = $("mailBody").value.trim();
 
-  const body = message + `
+  const body = `${message}
 
---------------------------------
 
-STARPASS PAYMENT DETAILS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Confirmed Amount: ${
-    amount ? currency + " " + amount : "To be confirmed"
-  }
+          PAYMENT DETAILS
 
-Payment Method: ${
-    method || "To be confirmed"
-  }
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-Secure Payment Link: ${
-    link || "Instructions will be provided separately."
-  }
 
-Payment Status: ${paymentStatus}
+TICKET AMOUNT
 
---------------------------------
+${amount ? currency + " " + amount : "To be confirmed"}
 
-Kind regards,
-StarPass
+
+PAYMENT METHOD
+
+${method || "To be confirmed"}
+
+
+SECURE PAYMENT LINK
+
+${link || "Instructions will be provided separately."}
+
+
+PAYMENT STATUS
+
+${paymentStatus}
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+Thank you for choosing StarPass.
+
+For further assistance, please contact us.
+
+Warm regards,
+
+STARPASS
 starpasstickets@gmail.com
+
+Your Favourite Stars.
+Your Next Experience.
 `;
 
   const mailto =
@@ -1508,62 +1342,39 @@ starpasstickets@gmail.com
 
   window.location.href = mailto;
 
-});
+  closeContact();
 
-
-/* CLOSE MODAL */
-
-$("closeModal").addEventListener("click",() => {
-
-  $("contactModal").classList.add("hidden");
+  await loadAdmin();
 
 });
 
 
-/* REFRESH ADMIN */
+/* ===================================
+   HTML SAFETY
+=================================== */
 
-$("refreshAdmin").addEventListener("click",async () => {
+function escapeHTML(value) {
 
-  await loadAdminRequests();
-
-});
-
-
-/* SIGN OUT */
-
-async function signOut() {
-
-  const {error} = await supabaseClient.auth.signOut();
-
-  if(error) {
-    alert(error.message);
-    return;
-  }
-
-  currentUser = null;
-  currentRole = "customer";
-
-  await loadSession();
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[char]);
 
 }
 
-$("logoutBtn").addEventListener("click",signOut);
 
-$("adminLogoutBtn").addEventListener("click",signOut);
+/* ===================================
+   START APPLICATION
+=================================== */
 
-
-/* AUTH STATE */
-
-supabaseClient.auth.onAuthStateChange(() => {
-
-  setTimeout(loadSession,100);
-
+db.auth.onAuthStateChange(() => {
+  setTimeout(() => checkSession(), 0);
 });
 
-
-/* INITIALISE */
-
-loadSession();
+checkSession();
 
 </script>
 

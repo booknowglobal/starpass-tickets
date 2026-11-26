@@ -338,6 +338,26 @@ td {
   color:#111;
 }
 
+/* STATUS DROPDOWN */
+
+.status-select {
+  width:auto;
+  min-width:125px;
+  max-width:145px;
+  padding:8px 25px 8px 9px;
+  font-size:11px;
+  border:1px solid var(--gold);
+  border-radius:3px;
+  background:#100f0d;
+  color:var(--gold-light);
+  cursor:pointer;
+}
+
+.status-select:focus {
+  border-color:var(--gold-light);
+  outline:none;
+}
+
 .modal {
   position:fixed;
   inset:0;
@@ -743,6 +763,7 @@ footer strong {
 </div>
 
 <script>
+
 /* ===================================
    SUPABASE CONFIGURATION
 =================================== */
@@ -955,8 +976,10 @@ $("bookingForm").addEventListener("submit", async e => {
 
   $("bookingForm").reset();
 
+  /* UPDATED CUSTOMER CONFIRMATION MESSAGE */
+
   $("bookingMessage").textContent =
-    "Your request has been submitted successfully.";
+    "Your booking request has been submitted successfully! Thank you for choosing StarPass. We will review your request and send an update to your registered email address with further information. Please keep an eye on your inbox.";
 
   await loadCustomerRequests();
 
@@ -1099,7 +1122,17 @@ async function loadAdmin() {
 
       <td>
         <button class="small-btn" data-action="view">View</button>
-        <button class="small-btn" data-action="status">Status</button>
+
+        <!-- UPDATED STATUS DROPDOWN -->
+
+        <select class="small-btn status-select" aria-label="Change booking status">
+          <option value="Pending" ${row.status === "Pending" ? "selected" : ""}>Pending</option>
+          <option value="Under Review" ${row.status === "Under Review" ? "selected" : ""}>Under Review</option>
+          <option value="Confirmed" ${row.status === "Confirmed" ? "selected" : ""}>Confirmed</option>
+          <option value="Declined" ${row.status === "Declined" ? "selected" : ""}>Declined</option>
+          <option value="Completed" ${row.status === "Completed" ? "selected" : ""}>Completed</option>
+        </select>
+
         <button class="small-btn" data-action="contact">Contact</button>
       </td>
     `;
@@ -1108,8 +1141,34 @@ async function loadAdmin() {
       "click", () => viewRequest(row)
     );
 
-    tr.querySelector('[data-action="status"]').addEventListener(
-      "click", () => changeStatus(row)
+    /* UPDATED TAP-TO-CHANGE STATUS FUNCTION */
+
+    tr.querySelector(".status-select").addEventListener(
+      "change",
+      async function() {
+
+        const select = this;
+        const newStatus = select.value;
+
+        select.disabled = true;
+
+        const { error } = await db
+          .from("booking_requests")
+          .update({ status: newStatus })
+          .eq("id", row.id);
+
+        if (error) {
+
+          alert("Unable to update status: " + error.message);
+
+          await loadAdmin();
+          return;
+
+        }
+
+        await loadAdmin();
+
+      }
     );
 
     tr.querySelector('[data-action="contact"]').addEventListener(
@@ -1140,46 +1199,6 @@ function viewRequest(row) {
     "Status: " + row.status
   );
 
-}
-
-
-/* ===================================
-   CHANGE BOOKING STATUS
-=================================== */
-
-async function changeStatus(row) {
-
-  const choices = [
-    "Pending",
-    "Under Review",
-    "Confirmed",
-    "Declined",
-    "Completed"
-  ];
-
-  const newStatus = prompt(
-    "Enter the new status:\n\n" + choices.join("\n"),
-    row.status
-  );
-
-  if (!newStatus) return;
-
-  if (!choices.includes(newStatus)) {
-    alert("Invalid status selected.");
-    return;
-  }
-
-  const { error } = await db
-    .from("booking_requests")
-    .update({ status: newStatus })
-    .eq("id", row.id);
-
-  if (error) {
-    alert(error.message);
-    return;
-  }
-
-  await loadAdmin();
 }
 
 

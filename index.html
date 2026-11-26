@@ -338,8 +338,6 @@ td {
   color:#111;
 }
 
-/* STATUS DROPDOWN */
-
 .status-select {
   width:auto;
   min-width:125px;
@@ -534,6 +532,16 @@ footer strong {
         <label>Number of Tickets</label>
         <input id="quantity" type="number" min="1" max="20" required>
 
+        <label>Preferred Payment Method</label>
+        <select id="preferredPaymentMethod" required>
+          <option value="">Select payment method</option>
+          <option>Chime</option>
+          <option>Cash App</option>
+          <option>PayPal</option>
+          <option>Bitcoin</option>
+          <option>Apple Gift Card</option>
+        </select>
+
         <label>Additional Information</label>
         <textarea id="notes" placeholder="Tell us about your preferences"></textarea>
 
@@ -608,6 +616,7 @@ footer strong {
               <th>Location</th>
               <th>Date</th>
               <th>Tickets</th>
+              <th>Payment Method</th>
               <th>Status</th>
               <th>Payment</th>
             </tr>
@@ -665,6 +674,7 @@ footer strong {
               <th>Location</th>
               <th>Date</th>
               <th>Tickets</th>
+              <th>Payment Method</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -733,18 +743,22 @@ footer strong {
 
       <label>Currency</label>
       <select id="mailCurrency">
-        <option>USD</option>
-        <option>GBP</option>
-        <option>EUR</option>
-        <option>CAD</option>
-        <option>AUD</option>
+        <option value="USD">$ (US Dollar)</option>
+        <option value="GBP">£ (British Pound)</option>
+        <option value="EUR">€ (Euro)</option>
+        <option value="CAD">C$ (Canadian Dollar)</option>
+        <option value="AUD">A$ (Australian Dollar)</option>
       </select>
 
       <label>Payment Method</label>
-      <input id="mailMethod" placeholder="Payment method">
-
-      <label>Secure Payment Link</label>
-      <input id="mailPaymentLink" type="url" placeholder="https://">
+      <select id="mailMethod">
+        <option value="">Select payment method</option>
+        <option>Chime</option>
+        <option>Cash App</option>
+        <option>PayPal</option>
+        <option>Bitcoin</option>
+        <option>Apple Gift Card</option>
+      </select>
 
       <label>Payment Status</label>
       <select id="mailPaymentStatus">
@@ -787,6 +801,19 @@ const $ = id => document.getElementById(id);
 
 
 /* ===================================
+   CURRENCY SYMBOLS
+=================================== */
+
+const currencySymbols = {
+  USD: "$",
+  GBP: "£",
+  EUR: "€",
+  CAD: "C$",
+  AUD: "A$"
+};
+
+
+/* ===================================
    AUTHENTICATION
 =================================== */
 
@@ -807,7 +834,7 @@ async function signup() {
     return;
   }
 
-  const { data, error } = await db.auth.signUp({
+  const { error } = await db.auth.signUp({
     email,
     password,
     options: {
@@ -961,6 +988,7 @@ $("bookingForm").addEventListener("submit", async e => {
     event_date: $("eventDate").value,
     ticket_type: $("ticketType").value,
     quantity: Number($("quantity").value),
+    preferred_payment_method: $("preferredPaymentMethod").value,
     notes: $("notes").value.trim(),
     status: "Pending"
   };
@@ -975,8 +1003,6 @@ $("bookingForm").addEventListener("submit", async e => {
   }
 
   $("bookingForm").reset();
-
-  /* UPDATED CUSTOMER CONFIRMATION MESSAGE */
 
   $("bookingMessage").textContent =
     "Your booking request has been submitted successfully! Thank you for choosing StarPass. We will review your request and send an update to your registered email address with further information. Please keep an eye on your inbox.";
@@ -1002,7 +1028,7 @@ async function loadCustomerRequests() {
 
   if (error) {
     $("customerRequests").innerHTML =
-      `<tr><td colspan="6">${escapeHTML(error.message)}</td></tr>`;
+      `<tr><td colspan="7">${escapeHTML(error.message)}</td></tr>`;
     return;
   }
 
@@ -1010,7 +1036,7 @@ async function loadCustomerRequests() {
 
   if (!data || !data.length) {
     $("customerRequests").innerHTML =
-      "<tr><td colspan='6'>No booking requests yet.</td></tr>";
+      "<tr><td colspan='7'>No booking requests yet.</td></tr>";
     return;
   }
 
@@ -1023,6 +1049,7 @@ async function loadCustomerRequests() {
       <td>${escapeHTML(row.city)}, ${escapeHTML(row.country)}</td>
       <td>${escapeHTML(row.event_date)}</td>
       <td>${escapeHTML(row.ticket_type)} × ${Number(row.quantity)}</td>
+      <td>${escapeHTML(row.preferred_payment_method || "Not selected")}</td>
       <td class="status">${escapeHTML(row.status)}</td>
       <td>${escapeHTML(row.payment_status || "Not requested")}</td>
     `;
@@ -1093,7 +1120,7 @@ async function loadAdmin() {
 
   if (!rows.length) {
     $("adminRequests").innerHTML =
-      "<tr><td colspan='7'>No customer requests yet.</td></tr>";
+      "<tr><td colspan='8'>No customer requests yet.</td></tr>";
     return;
   }
 
@@ -1118,12 +1145,12 @@ async function loadAdmin() {
 
       <td>${escapeHTML(row.ticket_type)} × ${Number(row.quantity)}</td>
 
+      <td>${escapeHTML(row.preferred_payment_method || "Not selected")}</td>
+
       <td class="status">${escapeHTML(row.status)}</td>
 
       <td>
         <button class="small-btn" data-action="view">View</button>
-
-        <!-- UPDATED STATUS DROPDOWN -->
 
         <select class="small-btn status-select" aria-label="Change booking status">
           <option value="Pending" ${row.status === "Pending" ? "selected" : ""}>Pending</option>
@@ -1140,8 +1167,6 @@ async function loadAdmin() {
     tr.querySelector('[data-action="view"]').addEventListener(
       "click", () => viewRequest(row)
     );
-
-    /* UPDATED TAP-TO-CHANGE STATUS FUNCTION */
 
     tr.querySelector(".status-select").addEventListener(
       "change",
@@ -1195,6 +1220,7 @@ function viewRequest(row) {
     "Date: " + row.event_date + "\n" +
     "Ticket Type: " + row.ticket_type + "\n" +
     "Quantity: " + row.quantity + "\n" +
+    "Preferred Payment Method: " + (row.preferred_payment_method || "Not selected") + "\n" +
     "Notes: " + (row.notes || "None") + "\n" +
     "Status: " + row.status
   );
@@ -1237,9 +1263,6 @@ Thank you for choosing StarPass.`;
   $("mailMethod").value =
     row.preferred_payment_method || "";
 
-  $("mailPaymentLink").value =
-    row.payment_link || "";
-
   $("mailPaymentStatus").value =
     row.payment_status || "Not requested";
 
@@ -1271,16 +1294,7 @@ $("contactForm").addEventListener("submit", async e => {
   const amount = $("mailAmount").value.trim();
   const currency = $("mailCurrency").value;
   const method = $("mailMethod").value.trim();
-  const link = $("mailPaymentLink").value.trim();
   const paymentStatus = $("mailPaymentStatus").value;
-
-  if (link && !/^https:\/\//i.test(link)) {
-
-    $("modalMessage").textContent =
-      "Please enter a valid HTTPS payment link.";
-
-    return;
-  }
 
   const { error } = await db
     .from("booking_requests")
@@ -1288,7 +1302,6 @@ $("contactForm").addEventListener("submit", async e => {
       quoted_amount: amount ? Number(amount) : null,
       currency: currency,
       preferred_payment_method: method || null,
-      payment_link: link || null,
       payment_status: paymentStatus
     })
     .eq("id", selectedRequest.id);
@@ -1308,6 +1321,8 @@ $("contactForm").addEventListener("submit", async e => {
   const subject = $("mailSubject").value.trim();
   const message = $("mailBody").value.trim();
 
+  const symbol = currencySymbols[currency] || currency;
+
   const body = `${message}
 
 
@@ -1320,17 +1335,12 @@ $("contactForm").addEventListener("submit", async e => {
 
 TICKET AMOUNT
 
-${amount ? currency + " " + amount : "To be confirmed"}
+${amount ? symbol + amount : "To be confirmed"}
 
 
 PAYMENT METHOD
 
 ${method || "To be confirmed"}
-
-
-SECURE PAYMENT LINK
-
-${link || "Instructions will be provided separately."}
 
 
 PAYMENT STATUS

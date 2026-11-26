@@ -1,1 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>StarPass | International Celebrity Events & Tickets</title>
+
+<meta name="description" content="Discover celebrity events, concerts and live entertainment around the world with StarPass. Submit a ticket booking request.">
+
+<meta name="theme-color" content="#090909">
+
+<style>
+:root {
+    --black: #090909;
+    --dark: #151515;
+    --card: #1c1c1c;
+    --gold: #d5ad62;
+    --gold-light: #f1d59a;
+    --white: #ffffff;
+    --muted: #aaa;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--black);
+    color: var(--white);
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(9,9,9,.97);
+    border-bottom: 1px solid #30271b;
+}
+
+nav {
+    max-width: 1200px;
+    margin: auto;
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    color: var(--gold);
+    font-size: 29px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 23px;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    color: white;
+    font-size: 13px;
+}
+
+.nav-links a:hover {
+    color: var(--gold);
+}
+
+.hero {
+    min-height: 570px;
+    padding: 100px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background:
+    radial-gradient(ellipse at center, #352819 0%, #17120c 40%, #090909 75%);
+}
+
+.hero-content {
+    max-width: 800px;
+}
+
+.hero-label {
+    color: var(--gold);
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(42px, 8vw, 76px);
+    line-height: 1.15;
+    margin-bottom: 22px;
+}
+
+.hero h1 span {
+    color: var(--gold);
+}
+
+.hero p {
+    color: #c2c2c2;
+    max-width: 650px;
+    margin: auto auto 30px;
+}
+
+.button {
+    display: inline-block;
+    background: var(--gold);
+    color: #111;
+    padding: 14px 28px;
+    border-radius: 4px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.button:hover {
+    background: var(--gold-light);
+    transform: translateY(-2px);
+}
+
+.outline-button {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    margin-left: 10px;
+}
+
+.outline-button:hover {
+    background: var(--gold);
+    color: #111;
+}
+
+section {
+    padding: 80px 6%;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-title h2 {
+    font-family: Georgia, serif;
+    font-size: 39px;
+    color: var(--gold);
+    margin-bottom: 10px;
+}
+
+.section-title p {
+    color: var(--muted);
+}
+
+.countries {
+    max-width: 1100px;
+    margin: 0 auto 30px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.country-btn {
+    background: #1b1b1b;
+    border: 1px solid #4a3b24;
+    color: white;
+    padding: 10px 17px;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.country-btn.active,
+.country-btn:hover {
+    background: var(--gold);
+    color: #111;
+}
+
+.search-box {
+    max-width: 600px;
+    margin: 0 auto 35px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 15px;
+    background: #1b1b1b;
+    border: 1px solid #51432d;
+    border-radius: 5px;
+    color: white;
+    font-size: 15px;
+}
+
+.event-grid {
+    max-width: 1150px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 22px;
+}
+
+.event-card {
+    background: var(--card);
+    border: 1px solid #403421;
+    border-radius: 9px;
+    padding: 27px;
+    transition: .3s;
+}
+
+.event-card:hover {
+    border-color: var(--gold);
+    transform: translateY(-4px);
+}
+
+.event-card h3 {
+    color: var(--gold-light);
+    font-family: Georgia, serif;
+    font-size: 23px;
+    margin-bottom: 12px;
+}
+
+.event-card p {
+    color: #bbb;
+    font-size: 14px;
+    margin: 7px 0;
+}
+
+.verified {
+    display: inline-block;
+    color: #9cdbad;
+    font-size: 12px;
+    margin-bottom: 12px;
+}
+
+.request-link {
+    display: inline-block;
+    color: var(--gold);
+    margin-top: 18px;
+    font-weight: bold;
+    border-bottom: 1px solid var(--gold);
+}
+
+.empty-state {
+    text-align: center;
+    max-width: 700px;
+    margin: auto;
+    padding: 45px 25px;
+    background: #171717;
+    border: 1px solid #493a24;
+    border-radius: 8px;
+}
+
+.empty-state h3 {
+    color: var(--gold);
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.empty-state p {
+    color: var(--muted);
+}
+
+.booking-section {
+    background: #141414;
+}
+
+.booking-box {
+    max-width: 760px;
+    margin: auto;
+    background: #1c1c1c;
+    padding: 35px;
+    border: 1px solid #51432d;
+    border-radius: 8px;
+}
+
+.booking-box > p {
+    text-align: center;
+    color: var(--muted);
+    margin-bottom: 25px;
+}
+
+form {
+    display: grid;
+    gap: 15px;
+}
+
+label {
+    color: var(--gold-light);
+    font-size: 13px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 14px;
+    background: #101010;
+    border: 1px solid #51432d;
+    border-radius: 4px;
+    color: white;
+    font-size: 14px;
+}
+
+textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.payment-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    margin: 10px 0;
+}
+
+.payment-option {
+    padding: 15px;
+    text-align: center;
+    background: #101010;
+    border: 1px solid #51432d;
+    border-radius: 5px;
+    color: var(--gold-light);
+}
+
+.notice {
+    margin-top: 25px;
+    padding: 20px;
+    background: #111;
+    border-left: 3px solid var(--gold);
+    color: #bbb;
+    font-size: 14px;
+}
+
+.notice strong {
+    color: var(--gold);
+}
+
+.about-content {
+    max-width: 850px;
+    margin: auto;
+    text-align: center;
+    color: #bbb;
+}
+
+.about-content p {
+    margin-bottom: 15px;
+}
+
+.contact-box {
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+    background: #1c1c1c;
+    padding: 35px;
+    border: 1px solid #51432d;
+    border-radius: 8px;
+}
+
+.contact-box h3 {
+    color: var(--gold);
+    margin-bottom: 12px;
+}
+
+.contact-box a {
+    color: white;
+}
+
+footer {
+    padding: 30px 15px;
+    text-align: center;
+    border-top: 1px solid #33291c;
+    color: #999;
+    font-size: 13px;
+}
+
+footer span {
+    color: var(--gold);
+}
+
+@media(max-width:650px) {
+    nav {
+        flex-direction: column;
+    }
+
+    .nav-links {
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .hero {
+        min-height: 500px;
+    }
+
+    section {
+        padding: 65px 5%;
+    }
+
+    .section-title h2 {
+        font-size: 31px;
+    }
+
+    .booking-box {
+        padding: 22px;
+    }
+
+    .outline-button {
+        margin: 12px 0 0;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<nav>
+    <a href="#home" class="logo">STARPASS</a>
+
+    <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#events">Events</a>
+        <a href="#booking">Book Tickets</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </div>
+</nav>
+</header>
+
+<main>
+
+<section class="hero" id="home">
+    <div class="hero-content">
+        <div class="hero-label">International Entertainment</div>
+
+        <h1>Your Favourite Stars.<br><span>Your Next Experience.</span></h1>
+
+        <p>
+            Discover concerts, celebrity appearances, live performances
+            and unforgettable entertainment experiences around the world.
+        </p>
+
+        <a href="#events" class="button">Explore Events</a>
+        <a href="#booking" class="button outline-button">Request Tickets</a>
+    </div>
+</section>
+
+<section id="events">
+
+    <div class="section-title">
+        <h2>Upcoming Celebrity Events</h2>
+        <p>Discover verified entertainment events across the world.</p>
+    </div>
+
+    <div class="countries">
+        <button class="country-btn active" data-country="all">All Countries</button>
+        <button class="country-btn" data-country="United States">USA</button>
+        <button class="country-btn" data-country="United Kingdom">UK</button>
+        <button class="country-btn" data-country="Europe">Europe</button>
+        <button class="country-btn" data-country="Canada">Canada</button>
+        <button class="country-btn" data-country="Australia">Australia</button>
+        <button class="country-btn" data-country="Germany">Germany</button>
+    </div>
+
+    <div class="search-box">
+        <input
+            type="search"
+            id="eventSearch"
+            placeholder="Search events or celebrities..."
+        >
+    </div>
+
+    <div class="event-grid" id="eventGrid">
+
+        <!-- Add only verified events here.
+        Each event must be checked against an official organizer,
+        venue or authorized ticket seller before publication.
+
+        Example structure:
+
+        <article class="event-card" data-country="United Kingdom">
+            <span class="verified">✓ Event details verified</span>
+            <h3>Artist or Event Name</h3>
+            <p>📍 Venue, City, United Kingdom</p>
+            <p>📅 December 15, 2026</p>
+            <p>🎟 Ticket categories: Regular / VIP</p>
+            <a class="request-link" href="#booking"
+               onclick="selectEvent('Artist or Event Name')">
+               Request Tickets →
+            </a>
+        </article>
+        -->
+
+    </div>
+
+    <div class="empty-state" id="emptyState">
+        <h3>December Events Coming Soon</h3>
+        <p>
+            We are preparing our international event listings.
+            New events will appear here after their dates, venues
+            and ticket information have been verified.
+        </p>
+        <br>
+        <a href="#booking" class="button">Submit a Booking Enquiry</a>
+    </div>
+
+</section>
+
+<section class="booking-section" id="booking">
+
+    <div class="section-title">
+        <h2>Request Your Tickets</h2>
+        <p>Submit your request and our team will review availability.</p>
+    </div>
+
+    <div class="booking-box">
+
+        <p>
+            Complete the form below. Our team will review your request
+            and contact you by email.
+        </p>
+
+        <form id="bookingForm">
+
+            <div>
+                <label for="customerName">Full Name</label>
+                <input type="text" id="customerName"
+                       placeholder="Enter your full name" required>
+            </div>
+
+            <div>
+                <label for="customerEmail">Email Address</label>
+                <input type="email" id="customerEmail"
+                       placeholder="Enter your email" required>
+            </div>
+
+            <div>
+                <label for="country">Your Country</label>
+                <select id="country" required>
+                    <option value="">Select your country</option>
+                    <option>United States</option>
+                    <option>United Kingdom</option>
+                    <option>Germany</option>
+                    <option>Canada</option>
+                    <option>Australia</option>
+                    <option>Other European Country</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="eventName">Event / Celebrity Name</label>
+                <input type="text" id="eventName"
+                       placeholder="Which event are you interested in?" required>
+            </div>
+
+            <div>
+                <label for="eventLocation">Event Location</label>
+                <input type="text" id="eventLocation"
+                       placeholder="City and country">
+            </div>
+
+            <div>
+                <label for="ticketType">Ticket Category</label>
+                <select id="ticketType" required>
+                    <option value="">Select ticket category</option>
+                    <option>Regular Admission</option>
+                    <option>VIP</option>
+                    <option>VVIP</option>
+                    <option>Meet and Greet (subject to availability)</option>
+                    <option>Not Sure Yet</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="quantity">Number of Tickets</label>
+                <select id="quantity" required>
+                    <option value="">Select quantity</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6 or more</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="payment">Preferred Payment Method</label>
+                <select id="payment" required>
+                    <option value="">Select payment preference</option>
+                    <option>PayPal</option>
+                    <option>Cash App (where available)</option>
+                    <option>Chime (where available)</option>
+                    <option>Other / Please advise</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="notes">Additional Information</label>
+                <textarea id="notes"
+                    placeholder="Any questions or additional requests?"></textarea>
+            </div>
+
+            <button type="submit" class="button">
+                Submit Booking Request
+            </button>
+
+        </form>
+
+        <div class="notice">
+            <strong>Important Booking Information</strong>
+            <p>
+                Submitting a booking request does not mean that a ticket
+                has been reserved or purchased. Our team must first verify
+                event details and ticket availability with an official
+                organizer, venue or authorized ticket seller.
+            </p>
+            <p>
+                Payment instructions will only be provided after availability
+                and the final ticket price have been confirmed.
+            </p>
+            <p>
+                StarPass does not request Apple Gift Cards as ticket payment.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<section id="about">
+
+    <div class="section-title">
+        <h2>About StarPass</h2>
+        <p>Connecting fans with entertainment experiences.</p>
+    </div>
+
+    <div class="about-content">
+        <p>
+            StarPass is an international event discovery and
+            ticket booking request platform designed to help fans
+            explore entertainment opportunities around the world.
+        </p>
+
+        <p>
+            Our goal is to make discovering events and submitting
+            ticket enquiries simple and convenient.
+        </p>
+
+        <p>
+            Event information and availability must be verified
+            before a booking can be confirmed.
+        </p>
+    </div>
+
+</section>
+
+<section id="contact">
+
+    <div class="section-title">
+        <h2>Contact StarPass</h2>
+        <p>Have a question? Get in touch with our team.</p>
+    </div>
+
+    <div class="contact-box">
+        <h3>Customer Support</h3>
+        <p>
+            <a href="mailto:starpasstickets@gmail.com">
+                starpasstickets@gmail.com
+            </a>
+        </p>
+        <br>
+        <a class="button"
+           href="mailto:starpasstickets@gmail.com">
+           Email StarPass
+        </a>
+    </div>
+
+</section>
+
+</main>
+
+<footer>
+    <p>© 2026 <span>StarPass</span>. All Rights Reserved.</p>
+    <p>International Event Discovery & Booking Requests</p>
+</footer>
+
+<script>
+const countryButtons = document.querySelectorAll(".country-btn");
+const searchInput = document.getElementById("eventSearch");
+const eventCards = document.querySelectorAll(".event-card");
+const emptyState = document.getElementById("emptyState");
+
+let selectedCountry = "all";
+
+function filterEvents() {
+    const search = searchInput.value.toLowerCase();
+    let visibleCount = 0;
+
+    eventCards.forEach(card => {
+        const country = card.dataset.country;
+        const matchesCountry =
+            selectedCountry === "all" || country === selectedCountry;
+
+        const matchesSearch =
+            card.textContent.toLowerCase().includes(search);
+
+        if (matchesCountry && matchesSearch) {
+            card.style.display = "block";
+            visibleCount++;
+        } else {
+            card.style.display = "none";
+        }
+    });
+
+    emptyState.style.display =
+        visibleCount === 0 ? "block" : "none";
+}
+
+countryButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        countryButtons.forEach(btn => btn.classList.remove("active"));
+
+        button.classList.add("active");
+        selectedCountry = button.dataset.country;
+
+        filterEvents();
+    });
+});
+
+searchInput.addEventListener("input", filterEvents);
+
+function selectEvent(eventName) {
+    document.getElementById("eventName").value = eventName;
+}
+
+document.getElementById("bookingForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const name = document.getElementById("customerName").value.trim();
+    const email = document.getElementById("customerEmail").value.trim();
+    const country = document.getElementById("country").value;
+    const event = document.getElementById("eventName").value.trim();
+    const location = document.getElementById("eventLocation").value;
+    const ticket = document.getElementById("ticketType").value;
+    const quantity = document.getElementById("quantity").value;
+    const payment = document.getElementById("payment").value;
+    const notes = document.getElementById("notes").value;
+
+    const subject = "StarPass Ticket Booking Request";
+
+    const body =
+        "NEW STARPASS BOOKING REQUEST\n\n" +
+        "Customer Name: " + name + "\n" +
+        "Email: " + email + "\n" +
+        "Customer Country: " + country + "\n" +
+        "Event: " + event + "\n" +
+        "Event Location: " + location + "\n" +
+        "Ticket Category: " + ticket + "\n" +
+        "Quantity: " + quantity + "\n" +
+        "Preferred Payment: " + payment + "\n" +
+        "Additional Information: " + notes + "\n\n" +
+        "STATUS: Pending verification. No ticket is confirmed.";
+
+    const mailto =
+        "mailto:starpasstickets@gmail.com" +
+        "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent(body);
+
+    window.location.href = mailto;
+
+    alert(
+        "Your email application should open with your booking request. " +
+        "Please press Send in your email application to submit it. " +
+        "Your booking is not confirmed yet."
+    );
+});
+
+filterEvents();
+</script>
+
+</body>
+</html>

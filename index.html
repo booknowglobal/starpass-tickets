@@ -4,1524 +4,932 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>StarPass | Your Favourite Stars. Your Next Experience.</title>
-<meta name="description" content="Request tickets for the events and experiences you love with StarPass.">
+<meta name="description" content="Request tickets for your favourite stars, teams and events with StarPass. Your next experience starts here.">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root {
-  --ink:#090909;
-  --panel:#121212;
+  --black:#0b0b0b;
+  --panel:#151515;
   --gold:#c9a96e;
-  --gold2:#e7d2a4;
-  --cream:#f6f0e5;
-  --muted:#b9b1a4;
-  --line:rgba(201,169,110,.25);
-  --danger:#ef8d8d;
-  --green:#9bd5ad;
+  --cream:#f4eee2;
+  --muted:#aaa39a;
+  --border:rgba(201,169,110,.25);
 }
 
-* {box-sizing:border-box}
+* {box-sizing:border-box;margin:0;padding:0}
 
 body {
-  margin:0;
-  background:var(--ink);
+  background:var(--black);
   color:var(--cream);
-  font-family:Arial,Helvetica,sans-serif;
-  line-height:1.55;
+  font-family:Arial,sans-serif;
+  line-height:1.6;
 }
 
-h1,h2,h3,.brand {
-  font-family:Georgia,'Times New Roman',serif;
-  font-weight:400;
-}
-
-a {color:var(--gold2)}
-
-button,input,select,textarea {font:inherit}
-
-button {cursor:pointer}
-
-.wrap {
-  width:min(1120px,92%);
-  margin:auto;
-}
-
-.topbar {
-  border-bottom:1px solid var(--line);
-  padding:20px 0;
-}
-
-.nav {
+header {
+  padding:22px 7%;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:18px;
+  border-bottom:1px solid var(--border);
 }
 
-.brand {
-  font-size:30px;
-  letter-spacing:3px;
-  color:var(--gold2);
-}
-
-.brand small {
-  display:block;
-  font:10px Arial;
-  letter-spacing:2px;
-  color:var(--muted);
-  text-transform:uppercase;
-}
-
-.nav-actions {
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.hero {
-  padding:76px 0 58px;
-  text-align:center;
-  background:radial-gradient(ellipse at top,rgba(201,169,110,.12),transparent 60%);
-}
-
-.eyebrow {
+.logo {
+  font-family:Georgia,serif;
+  font-size:29px;
   color:var(--gold);
-  letter-spacing:3px;
-  text-transform:uppercase;
-  font-size:11px;
+  letter-spacing:2px;
 }
 
-.hero h1 {
-  font-size:clamp(38px,7vw,68px);
-  line-height:1.06;
-  margin:15px 0;
-}
-
-.hero p {
-  color:var(--muted);
-  max-width:620px;
-  margin:0 auto 25px;
-}
-
-.btn {
-  border:1px solid var(--gold);
-  background:var(--gold);
-  color:#111;
-  padding:12px 19px;
-  border-radius:2px;
-  font-weight:700;
-}
-
-.btn:hover {background:var(--gold2)}
-
-.btn.secondary {
-  background:transparent;
-  color:var(--gold2);
-}
-
-.btn.small {
-  padding:8px 11px;
-  font-size:12px;
-}
-
-.section {padding:36px 0 70px}
-
-.card {
-  background:var(--panel);
-  border:1px solid var(--line);
-  padding:25px;
-  border-radius:4px;
-  margin:18px 0;
-}
-
-.card h2,.card h3 {margin-top:0}
-
-.grid {
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:16px;
-}
-
-.field {
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-  margin-bottom:14px;
-}
-
-.field label {
-  font-size:12px;
-  color:var(--gold2);
-  letter-spacing:.5px;
-}
-
-.field input,
-.field select,
-.field textarea {
-  width:100%;
-  padding:12px;
-  background:#090909;
-  border:1px solid #494033;
+nav a {
   color:var(--cream);
-  border-radius:2px;
-}
-
-.field textarea {
-  min-height:90px;
-  resize:vertical;
-}
-
-.muted {color:var(--muted)}
-.hidden {display:none!important}
-
-.status {
-  display:inline-block;
-  padding:4px 9px;
-  border:1px solid var(--line);
-  font-size:11px;
-  color:var(--gold2);
-  border-radius:20px;
-}
-
-.notice {
-  padding:12px 14px;
-  border:1px solid var(--line);
-  background:#17140f;
-  color:var(--muted);
-  margin:14px 0;
-}
-
-.message {
-  margin:12px 0;
-  color:var(--gold2);
-  font-size:14px;
-}
-
-.error {color:var(--danger)}
-.success {color:var(--green)}
-
-.table-wrap {overflow-x:auto}
-
-table {
-  width:100%;
-  border-collapse:collapse;
-  min-width:780px;
-}
-
-th,td {
-  text-align:left;
-  padding:12px;
-  border-bottom:1px solid var(--line);
-  vertical-align:top;
+  text-decoration:none;
+  margin-left:20px;
   font-size:13px;
 }
 
-th {
-  color:var(--gold2);
-  font-weight:600;
-}
-
-.pill {
-  font-size:11px;
-  color:var(--muted);
-}
-
-.footer {
-  border-top:1px solid var(--line);
-  padding:25px 0;
-  color:var(--muted);
-  font-size:12px;
+.hero {
   text-align:center;
+  padding:100px 20px 85px;
+  background:linear-gradient(135deg,#17140f,#080808);
 }
 
-.inline {
-  display:flex;
-  gap:8px;
-  align-items:center;
-  flex-wrap:wrap;
+.hero h1 {
+  font-family:Georgia,serif;
+  font-size:clamp(38px,7vw,70px);
+  color:var(--gold);
+  line-height:1.15;
+  margin-bottom:20px;
 }
 
-.divider {
-  height:1px;
-  background:var(--line);
-  margin:20px 0;
+.hero p {
+  max-width:600px;
+  margin:0 auto 28px;
+  color:#d0c9bd;
+}
+
+button,.button {
+  background:var(--gold);
+  color:#111;
+  border:0;
+  padding:13px 22px;
+  border-radius:4px;
+  font-weight:bold;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-block;
+}
+
+button:hover,.button:hover {opacity:.85}
+
+section {padding:65px 7%}
+
+.section-title {
+  font-family:Georgia,serif;
+  font-size:34px;
+  color:var(--gold);
+  margin-bottom:15px;
+}
+
+.intro {color:var(--muted);max-width:700px}
+
+.card {
+  background:var(--panel);
+  border:1px solid var(--border);
+  padding:25px;
+  border-radius:7px;
+  margin-top:20px;
+}
+
+input,select,textarea {
+  width:100%;
+  padding:13px;
+  margin:8px 0 16px;
+  background:#0c0c0c;
+  color:white;
+  border:1px solid #494236;
+  border-radius:4px;
+  font:inherit;
+}
+
+label {font-size:13px;color:#d7cbb7}
+
+textarea {min-height:100px;resize:vertical}
+
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:20px;
+}
+
+.hidden {display:none!important}
+
+.status {
+  color:var(--gold);
+  font-size:13px;
+}
+
+.small {
+  font-size:12px;
+  color:var(--muted);
+}
+
+.request {
+  border-bottom:1px solid var(--border);
+  padding:18px 0;
+}
+
+footer {
+  padding:35px 7%;
+  border-top:1px solid var(--border);
+  text-align:center;
+  color:var(--muted);
 }
 
 .modal {
   position:fixed;
   inset:0;
-  background:#000c;
+  background:rgba(0,0,0,.85);
   display:flex;
   align-items:center;
   justify-content:center;
-  padding:18px;
-  z-index:20;
+  padding:15px;
+  z-index:100;
+  overflow-y:auto;
 }
 
-.modal-box {
-  width:min(760px,100%);
-  max-height:90vh;
-  overflow:auto;
-  background:#111;
+.modal-content {
+  width:100%;
+  max-width:650px;
+  background:#171717;
   border:1px solid var(--gold);
-  padding:24px;
+  padding:25px;
+  border-radius:7px;
+  margin:auto;
 }
 
-.modal-head {
+.modal-content h2 {
+  color:var(--gold);
+  font-family:Georgia,serif;
+  margin-bottom:15px;
+}
+
+.actions {
   display:flex;
-  justify-content:space-between;
-  gap:15px;
-  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
 }
 
-.close {
-  background:none;
-  border:0;
-  color:var(--gold2);
-  font-size:25px;
+.secondary {
+  background:#292929;
+  color:var(--cream);
+  border:1px solid var(--border);
 }
 
-@media(max-width:700px) {
-  .grid {grid-template-columns:1fr}
-  .hero {padding:52px 0 35px}
-  .card {padding:18px}
-  .nav {
-    align-items:flex-start;
-    flex-direction:column;
-  }
-  .nav-actions {width:100%}
-  .nav-actions .btn {flex:1}
+.danger {background:#7b2929;color:white}
+
+hr {border:0;border-top:1px solid var(--border);margin:20px 0}
+
+@media(max-width:600px) {
+  header {flex-direction:column;gap:12px}
+  nav a {margin:0 7px}
+  section {padding:45px 5%}
 }
 </style>
 </head>
 
 <body>
 
-<header class="topbar">
-<div class="wrap nav">
-
-  <div class="brand">
-    STARPASS
-    <small>Your Favourite Stars. Your Next Experience.</small>
-  </div>
-
-  <div class="nav-actions">
-    <button class="btn secondary small" id="navLogin">Sign In</button>
-    <button class="btn small" id="navBook">Request Tickets</button>
-    <button class="btn secondary small hidden" id="logoutBtn">Sign Out</button>
-  </div>
-
-</div>
+<header>
+  <div class="logo">STARPASS</div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#about">About</a>
+    <a href="#request">Request Tickets</a>
+    <a href="#account">Account</a>
+  </nav>
 </header>
 
-<main>
-
-<section class="hero">
-<div class="wrap">
-
-  <div class="eyebrow">
-    A more personal way to plan your next experience
-  </div>
-
-  <h1>
-    Your Favourite Stars.<br>
-    Your Next Experience.
-  </h1>
-
+<div class="hero" id="home">
+  <h1>Your Favourite Stars.<br>Your Next Experience.</h1>
   <p>
-    Tell us which artist, team, show or event you would love to attend.
-    StarPass will review your request and contact you with availability
-    and next steps.
+    Discover your next unforgettable experience.
+    Submit a private ticket request for your favourite artists,
+    teams and events.
   </p>
-
-  <button class="btn" id="heroRequest">
-    Make a Ticket Request
-  </button>
-
-  <p class="pill" style="margin-top:18px">
-    Every request is subject to availability and confirmation.
-    Submitting a request does not guarantee tickets.
-  </p>
-
+  <a class="button" href="#request">Request Tickets</a>
 </div>
+
+<section id="about">
+  <h2 class="section-title">The StarPass Experience</h2>
+  <p class="intro">
+    StarPass provides a simple way to submit ticket requests for
+    the events and experiences you want to attend. Tell us what
+    you're looking for and our team will review your request.
+  </p>
+  <div class="card">
+    <h3>Personalised Ticket Requests</h3>
+    <p class="small">
+      Tell us your preferred event, location, date and ticket type.
+      We will review your request and contact you with available
+      options where possible.
+    </p>
+  </div>
 </section>
 
-<section class="section wrap">
-
-<!-- AUTHENTICATION -->
-
-<div id="authPanel" class="card">
-
-  <h2 id="authTitle">Sign in to StarPass</h2>
-
-  <p class="muted">
-    Create an account or sign in to submit and track your ticket requests.
+<section id="request">
+  <h2 class="section-title">Request Your Tickets</h2>
+  <p class="intro">
+    Sign in to your account to submit a ticket request.
   </p>
 
-  <form id="authForm">
+  <div class="card">
+    <form id="bookingForm">
+      <label>Artist, Team or Event</label>
+      <input id="performer" required placeholder="Enter the event or artist name">
 
-    <div class="field hidden" id="nameField">
-      <label for="fullName">Full name</label>
-      <input id="fullName" autocomplete="name">
-    </div>
+      <label>Country</label>
+      <input id="country" required placeholder="Country">
 
-    <div class="field">
-      <label for="authEmail">Email address</label>
-      <input id="authEmail" type="email" required autocomplete="email">
-    </div>
+      <label>City</label>
+      <input id="city" required placeholder="City">
 
-    <div class="field">
-      <label for="authPassword">Password</label>
-      <input id="authPassword" type="password" required minlength="6">
-    </div>
+      <label>Preferred Event Date</label>
+      <input id="eventDate" type="date">
 
-    <button class="btn" id="authSubmit" type="submit">
-      Sign In
-    </button>
+      <label>Ticket Type</label>
+      <select id="ticketType" required>
+        <option value="">Select ticket type</option>
+        <option>General Admission</option>
+        <option>Standard</option>
+        <option>VIP</option>
+        <option>Premium</option>
+        <option>Not Sure</option>
+      </select>
 
-    <button class="btn secondary" type="button" id="toggleSignup">
-      Create Account
-    </button>
+      <label>Number of Tickets</label>
+      <input id="quantity" type="number" min="1" value="1" required>
 
-    <button class="btn secondary" type="button" id="forgotBtn">
-      Forgot Password?
-    </button>
+      <label>Additional Details</label>
+      <textarea id="notes" placeholder="Tell us any additional preferences"></textarea>
 
-  </form>
+      <button type="submit">Submit Request</button>
+    </form>
+    <p id="bookingMessage" class="status"></p>
+    <p class="small">
+      Submitting a request does not guarantee ticket availability.
+      Pricing and fulfilment must be confirmed individually.
+    </p>
+  </div>
+</section>
 
-  <div id="authMessage" class="message"></div>
+<section id="account">
+  <h2 class="section-title">Your Account</h2>
 
-  <div id="resetPanel" class="hidden">
+  <div class="card" id="authPanel">
+    <h3>Sign In / Create Account</h3>
 
-    <div class="divider"></div>
+    <form id="authForm">
+      <label>Full Name (for new accounts)</label>
+      <input id="fullName" placeholder="Your full name">
 
-    <h3>Choose a new password</h3>
+      <label>Email Address</label>
+      <input id="authEmail" type="email" required placeholder="Your email">
 
-    <form id="resetForm">
+      <label>Password</label>
+      <input id="authPassword" type="password" required placeholder="Password">
 
-      <div class="field">
-        <label for="newPassword">New password</label>
-        <input id="newPassword" type="password" minlength="6" required>
+      <div class="actions">
+        <button type="submit">Sign In</button>
+        <button type="button" class="secondary" id="signupBtn">Create Account</button>
       </div>
-
-      <button class="btn">Update Password</button>
-
     </form>
 
-  </div>
-
-</div>
-
-<!-- CUSTOMER DASHBOARD -->
-
-<div id="customerPanel" class="hidden">
-
-  <div class="card">
-
-    <div class="inline" style="justify-content:space-between">
-
-      <div>
-        <div class="eyebrow">Customer account</div>
-        <h2>Welcome to StarPass</h2>
-        <p class="muted" id="customerEmail"></p>
-      </div>
-
-      <span class="status">Customer Dashboard</span>
-
-    </div>
-
-  </div>
-
-  <!-- BOOKING FORM -->
-
-  <div class="card" id="requestCard">
-
-    <h2>Request Tickets</h2>
-
-    <p class="muted">
-      Share the event details you know. Our team will review your
-      request and contact you if we can assist.
+    <p style="margin-top:15px">
+      <a href="#" id="forgotPassword" style="color:var(--gold)">
+        Forgot your password?
+      </a>
     </p>
 
-    <form id="bookingForm">
-
-      <div class="grid">
-
-        <div class="field">
-          <label for="performer">Artist, team, show or event *</label>
-          <input id="performer" required maxlength="160">
-        </div>
-
-        <div class="field">
-          <label for="country">Country *</label>
-          <input id="country" required maxlength="100">
-        </div>
-
-        <div class="field">
-          <label for="city">City *</label>
-          <input id="city" required maxlength="100">
-        </div>
-
-        <div class="field">
-          <label for="eventDate">Preferred event date</label>
-          <input id="eventDate" type="date">
-        </div>
-
-        <div class="field">
-          <label for="ticketType">Ticket type / seating preference</label>
-          <input id="ticketType" maxlength="120">
-        </div>
-
-        <div class="field">
-          <label for="quantity">Number of tickets *</label>
-          <input id="quantity" type="number" min="1" max="20" value="1" required>
-        </div>
-
-      </div>
-
-      <div class="field">
-        <label for="notes">Additional details</label>
-        <textarea id="notes" maxlength="1500"></textarea>
-      </div>
-
-      <button class="btn">Submit Request</button>
-
-      <div id="bookingMessage" class="message"></div>
-
-    </form>
-
+    <p id="authMessage" class="status"></p>
   </div>
 
-  <!-- CUSTOMER REQUEST HISTORY -->
-
-  <div class="card">
-
-    <h2>My Requests</h2>
-
-    <div id="myRequests" class="muted">
-      Loading your requests…
-    </div>
-
+  <div id="customerPanel" class="card hidden">
+    <h3>Welcome to StarPass</h3>
+    <p id="customerEmail" class="small"></p>
+    <div id="customerRequests"></div>
+    <button id="logoutBtn" class="secondary">Sign Out</button>
   </div>
 
-</div>
-
-<!-- ADMIN DASHBOARD -->
-
-<div id="adminPanel" class="hidden">
-
-  <div class="card">
-
-    <div class="inline" style="justify-content:space-between">
-
-      <div>
-        <div class="eyebrow">Private workspace</div>
-        <h2>StarPass Admin Dashboard</h2>
-        <p class="muted">
-          Review requests, update statuses and prepare customer payment emails.
-        </p>
-      </div>
-
-      <span class="status">Administrator</span>
-
-    </div>
-
-    <div class="grid">
-
-      <div class="notice">
-        Total requests:
-        <strong id="totalCount">0</strong>
-      </div>
-
-      <div class="notice">
-        Pending requests:
-        <strong id="pendingCount">0</strong>
-      </div>
-
-    </div>
-
+  <div id="adminPanel" class="card hidden">
+    <h2 class="section-title">Admin Dashboard</h2>
+    <p class="small">Manage customer ticket requests.</p>
+    <div id="adminRequests"></div>
+    <button id="adminLogoutBtn" class="secondary">Sign Out</button>
   </div>
-
-  <div class="card">
-
-    <h2>All Booking Requests</h2>
-
-    <div id="adminRequests" class="muted">
-      Loading requests…
-    </div>
-
-  </div>
-
-</div>
-
 </section>
-</main>
 
-<footer class="footer">
-
-<div class="wrap">
-
-  © <span id="year"></span> StarPass. All rights reserved.
-
-  · <a href="mailto:starpasstickets@gmail.com">
-    starpasstickets@gmail.com
-  </a>
-
-  <p>
-    StarPass is a ticket-request service. Availability, pricing and
-    fulfilment are confirmed individually. No affiliation with artists,
-    teams, venues or event organizers is implied.
+<footer>
+  <div class="logo">STARPASS</div>
+  <p>Your Favourite Stars. Your Next Experience.</p>
+  <p style="margin-top:10px">
+    <a href="mailto:starpasstickets@gmail.com" style="color:var(--gold)">
+      starpasstickets@gmail.com
+    </a>
   </p>
-
-</div>
-
+  <p class="small" style="margin-top:15px">
+    StarPass is an independent ticket-request service and does not
+    claim official partnerships with artists, teams or event organisers.
+    Requests are subject to availability and individual confirmation.
+  </p>
 </footer>
 
-<!-- PAYMENT EMAIL MODAL -->
+<!-- ADMIN CONTACT MODAL -->
+<div id="contactModal" class="modal hidden">
+  <div class="modal-content">
+    <h2>Contact Customer</h2>
 
-<div id="contactModal" class="modal hidden" role="dialog" aria-modal="true">
+    <form id="contactForm">
+      <label>Customer Email</label>
+      <input id="mailTo" type="email" required>
 
-<div class="modal-box">
-
-  <div class="modal-head">
-
-    <div>
-      <div class="eyebrow">Admin communication</div>
-      <h2>Prepare Customer Email</h2>
-    </div>
-
-    <button class="close" id="closeModal">×</button>
-
-  </div>
-
-  <p class="muted">
-    Review the details and message. Open Email to Send will open your
-    email app. You must review and press Send there.
-  </p>
-
-  <form id="paymentEmailForm">
-
-    <input type="hidden" id="mailBookingId">
-
-    <div class="grid">
-
-      <div class="field">
-        <label for="mailTo">Customer email</label>
-        <input id="mailTo" type="email" required>
-      </div>
-
-      <div class="field">
-        <label for="mailCustomer">Customer name</label>
-        <input id="mailCustomer">
-      </div>
-
-      <div class="field">
-        <label for="mailAmount">Confirmed ticket total</label>
-        <input id="mailAmount" type="number" min="0" step="0.01">
-      </div>
-
-      <div class="field">
-        <label for="mailCurrency">Currency</label>
-
-        <select id="mailCurrency">
-          <option>USD</option>
-          <option>EUR</option>
-          <option>GBP</option>
-          <option>CAD</option>
-          <option>AUD</option>
-          <option>CHF</option>
-        </select>
-
-      </div>
-
-      <div class="field">
-        <label for="mailMethod">Payment method</label>
-        <input id="mailMethod" placeholder="Enter a method you actually accept">
-      </div>
-
-      <div class="field">
-        <label for="mailPaymentLink">Secure payment link</label>
-        <input id="mailPaymentLink" type="url" placeholder="https://…">
-      </div>
-
-    </div>
-
-    <div class="field">
-      <label for="mailSubject">Email subject</label>
+      <label>Email Subject</label>
       <input id="mailSubject" required>
-    </div>
 
-    <div class="field">
-      <label for="mailBody">Email message (editable)</label>
-      <textarea id="mailBody" style="min-height:230px" required></textarea>
-    </div>
+      <label>Confirmed Ticket Amount</label>
+      <input id="mailAmount" type="number" min="0" step="0.01">
 
-    <div class="notice">
-      Never ask customers to email card numbers, security codes,
-      passwords or banking PINs. Use a secure payment provider link.
-    </div>
+      <label>Currency</label>
+      <select id="mailCurrency">
+        <option>USD</option>
+        <option>GBP</option>
+        <option>EUR</option>
+        <option>CAD</option>
+        <option>AUD</option>
+      </select>
 
-    <div class="inline">
+      <label>Payment Method</label>
+      <input id="mailMethod" placeholder="Enter accepted payment method">
 
-      <button class="btn" type="submit">
-        Open Email to Send
-      </button>
+      <label>Secure Payment Link</label>
+      <input id="mailPaymentLink" type="url" placeholder="https://">
 
-      <button class="btn secondary" type="button" id="savePayment">
-        Save Quote & Payment Status
-      </button>
+      <label>Payment Status</label>
+      <select id="mailPaymentStatus">
+        <option>Not requested</option>
+        <option>Payment requested</option>
+        <option>Partially paid</option>
+        <option>Paid</option>
+        <option>Refunded</option>
+      </select>
 
-      <button class="btn secondary" type="button" id="cancelModal">
-        Cancel
-      </button>
+      <label>Email Message</label>
+      <textarea id="mailBody" required></textarea>
 
-    </div>
+      <div class="actions">
+        <button type="button" id="saveQuoteBtn">Save Quote & Payment Status</button>
+        <button type="submit">Review & Send Email</button>
+        <button type="button" id="closeModal" class="secondary">Close</button>
+      </div>
+    </form>
 
-    <div id="mailMessage" class="message"></div>
-
-  </form>
-
-</div>
+    <p id="modalMessage" class="status"></p>
+    <p class="small">
+      Review the email in your email application before sending.
+      StarPass does not automatically send this email.
+    </p>
+  </div>
 </div>
 
 <script>
-(() => {
+/* SUPABASE CONNECTION */
 
-const SUPABASE_URL =
-'https://rfelrcunkczlunswqmer.supabase.co';
+const SUPABASE_URL = "https://rfelrcunkczlunswqmer.supabase.co";
 
-const SUPABASE_PUBLISHABLE_KEY =
-'sb_publishable_sxjlh7kAAiyrESnjR_9FZQ_Fk4Ik_nu';
+const SUPABASE_KEY = "sb_publishable_sxjlh7kAAiyrESnjR_9FZQ_Fk4Ik_nu";
 
-const db = window.supabase.createClient(
+const supabaseClient = window.supabase.createClient(
   SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
+  SUPABASE_KEY
 );
 
 const $ = id => document.getElementById(id);
 
 let currentUser = null;
-let isSignup = false;
-let profile = null;
-let cachedBookings = [];
-
-$('year').textContent = new Date().getFullYear();
-
-const say = (id,text,kind='') => {
-  $(id).textContent = text;
-  $(id).className = 'message ' + kind;
-};
-
-const safe = value =>
-String(value ?? '').replace(/[&<>"']/g,c => ({
-  '&':'&amp;',
-  '<':'&lt;',
-  '>':'&gt;',
-  '"':'&quot;',
-  "'":'&#39;'
-}[c]));
-
-const show = (id,yes) =>
-$(id).classList.toggle('hidden',!yes);
-
-const fmtDate = d =>
-d ? new Date(d+'T00:00:00').toLocaleDateString()
-  : 'Not specified';
+let currentRole = "customer";
+let selectedRequest = null;
 
 
 /* AUTHENTICATION */
 
-function setAuthMode(signup) {
-
-  isSignup = signup;
-
-  $('authTitle').textContent =
-    signup ? 'Create your StarPass account' : 'Sign in to StarPass';
-
-  $('authSubmit').textContent =
-    signup ? 'Create Account' : 'Sign In';
-
-  $('toggleSignup').textContent =
-    signup ? 'Back to Sign In' : 'Create Account';
-
-  show('nameField',signup);
-
-}
-
-$('toggleSignup').addEventListener('click',() => {
-  setAuthMode(!isSignup);
-});
-
-$('navLogin').addEventListener('click',() => {
-  $('authPanel').scrollIntoView({behavior:'smooth'});
-});
-
-$('heroRequest').addEventListener('click',() => {
-  (currentUser ? $('requestCard') : $('authPanel'))
-    .scrollIntoView({behavior:'smooth'});
-});
-
-$('navBook').addEventListener('click',() => {
-  (currentUser ? $('requestCard') : $('authPanel'))
-    .scrollIntoView({behavior:'smooth'});
-});
-
-
-$('authForm').addEventListener('submit',async e => {
-
+$("authForm").addEventListener("submit", async e => {
   e.preventDefault();
 
-  say('authMessage','Please wait…');
+  const email = $("authEmail").value.trim();
+  const password = $("authPassword").value;
 
-  const email = $('authEmail').value.trim();
-  const password = $('authPassword').value;
+  $("authMessage").textContent = "Signing in...";
 
-  let result;
+  const {error} = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
 
-  if(isSignup) {
+  if(error) {
+    $("authMessage").textContent = error.message;
+    return;
+  }
 
-    result = await db.auth.signUp({
-      email,
-      password,
-      options:{
-        data:{
-          full_name:$('fullName').value.trim()
-        }
+  $("authMessage").textContent = "Signed in successfully.";
+  await loadSession();
+});
+
+
+/* CREATE ACCOUNT */
+
+$("signupBtn").addEventListener("click", async () => {
+  const email = $("authEmail").value.trim();
+  const password = $("authPassword").value;
+  const fullName = $("fullName").value.trim();
+
+  if(!email || !password || !fullName) {
+    $("authMessage").textContent =
+      "Enter your full name, email and password.";
+    return;
+  }
+
+  $("authMessage").textContent = "Creating account...";
+
+  const {error} = await supabaseClient.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        full_name: fullName
       }
-    });
-
-    if(!result.error && !result.data.session) {
-
-      say(
-        'authMessage',
-        'Account created. Check your email to confirm your address, then sign in.',
-        'success'
-      );
-
     }
+  });
 
-  } else {
-
-    result = await db.auth.signInWithPassword({
-      email,
-      password
-    });
-
+  if(error) {
+    $("authMessage").textContent = error.message;
+    return;
   }
 
-  if(result.error) {
+  $("authMessage").textContent =
+    "Account created. Check your email if confirmation is required.";
+});
 
-    say('authMessage',result.error.message,'error');
 
-  } else if(!isSignup || result.data.session) {
+/* PASSWORD RESET */
 
-    say('authMessage','');
+$("forgotPassword").addEventListener("click", async e => {
+  e.preventDefault();
 
-    await refreshSession();
+  const email = $("authEmail").value.trim();
 
+  if(!email) {
+    $("authMessage").textContent =
+      "Enter your email address first.";
+    return;
   }
 
+  const {error} = await supabaseClient.auth.resetPasswordForEmail(
+    email,
+    {
+      redirectTo: "https://booknowglobal.github.io/starpass-tickets/"
+    }
+  );
+
+  $("authMessage").textContent = error
+    ? error.message
+    : "Password reset instructions have been sent if the account exists.";
 });
 
 
 /* PASSWORD RECOVERY */
 
-$('forgotBtn').addEventListener('click',async() => {
+async function checkPasswordRecovery() {
+  const {data} = await supabaseClient.auth.getSession();
 
-  const email = $('authEmail').value.trim();
+  if(window.location.hash.includes("type=recovery") && data.session) {
+    const newPassword = prompt("Enter your new password:");
 
-  if(!email) {
+    if(newPassword) {
+      const {error} = await supabaseClient.auth.updateUser({
+        password: newPassword
+      });
 
-    return say(
-      'authMessage',
-      'Enter your email address first.',
-      'error'
-    );
-
-  }
-
-  const {error} = await db.auth.resetPasswordForEmail(
-    email,
-    {
-      redirectTo:location.origin + location.pathname
+      alert(error ? error.message : "Your password has been updated.");
     }
-  );
-
-  say(
-    'authMessage',
-    error
-      ? error.message
-      : 'If the account exists, a password reset email has been sent.',
-    error ? 'error' : 'success'
-  );
-
-});
-
-
-$('resetForm').addEventListener('submit',async e => {
-
-  e.preventDefault();
-
-  const {error} = await db.auth.updateUser({
-    password:$('newPassword').value
-  });
-
-  say(
-    'authMessage',
-    error ? error.message : 'Password updated successfully.',
-    error ? 'error' : 'success'
-  );
-
-  if(!error) show('resetPanel',false);
-
-});
-
-
-/* SESSION MANAGEMENT */
-
-db.auth.onAuthStateChange(async(event,session) => {
-
-  if(event === 'PASSWORD_RECOVERY') {
-    show('resetPanel',true);
   }
-
-  if(event === 'SIGNED_OUT') {
-
-    currentUser = null;
-    profile = null;
-
-    renderSignedOut();
-
-  }
-
-  if(session?.user) {
-
-    currentUser = session.user;
-
-    await loadProfileAndDashboard();
-
-  }
-
-});
-
-
-$('logoutBtn').addEventListener('click',async() => {
-  await db.auth.signOut();
-});
-
-
-function renderSignedOut() {
-
-  show('authPanel',true);
-  show('customerPanel',false);
-  show('adminPanel',false);
-
-  show('logoutBtn',false);
-  show('navLogin',true);
-  show('navBook',true);
-
 }
 
 
-async function refreshSession() {
+/* LOAD USER SESSION */
 
-  const {data} = await db.auth.getSession();
+async function loadSession() {
+  const {data} = await supabaseClient.auth.getSession();
 
-  if(data.session?.user) {
+  currentUser = data.session?.user || null;
 
-    currentUser = data.session.user;
-
-    await loadProfileAndDashboard();
-
-  }
-
-}
-
-
-/* LOAD CUSTOMER OR ADMIN DASHBOARD */
-
-async function loadProfileAndDashboard() {
-
-  show('authPanel',false);
-
-  show('logoutBtn',true);
-  show('navLogin',false);
-  show('navBook',true);
-
-  $('customerEmail').textContent =
-    currentUser.email || '';
-
-  const {data,error} = await db
-    .from('profiles')
-    .select('id,full_name,email,country,role')
-    .eq('id',currentUser.id)
-    .maybeSingle();
-
-  if(error) {
-
-    say(
-      'bookingMessage',
-      'Could not load your profile: '+error.message,
-      'error'
-    );
-
-    return;
-
-  }
-
-  profile = data;
-
-  const admin =
-    String(profile?.role || '').toLowerCase() === 'admin';
-
-  show('customerPanel',!admin);
-  show('adminPanel',admin);
-
-  if(admin) {
-
-    await loadAdminRequests();
-
-  } else {
-
-    await loadMyRequests();
-
-  }
-
-}
-
-
-/* CUSTOMER BOOKING FORM */
-
-$('bookingForm').addEventListener('submit',async e => {
-
-  e.preventDefault();
+  $("authPanel").classList.toggle("hidden", !!currentUser);
+  $("customerPanel").classList.add("hidden");
+  $("adminPanel").classList.add("hidden");
 
   if(!currentUser) return;
 
-  say('bookingMessage','Submitting your request…');
+  $("customerEmail").textContent = currentUser.email;
 
-  const payload = {
-
-    user_id:currentUser.id,
-
-    performer:$('performer').value.trim(),
-
-    country:$('country').value.trim(),
-
-    city:$('city').value.trim(),
-
-    event_date:$('eventDate').value || null,
-
-    ticket_type:$('ticketType').value.trim(),
-
-    quantity:Number($('quantity').value),
-
-    notes:$('notes').value.trim(),
-
-    status:'Pending'
-
-  };
-
-  const {error} = await db
-    .from('booking_requests')
-    .insert(payload);
+  const {data: profile, error} = await supabaseClient
+    .from("profiles")
+    .select("role")
+    .eq("id", currentUser.id)
+    .single();
 
   if(error) {
-
-    say(
-      'bookingMessage',
-      'Unable to submit: '+error.message,
-      'error'
-    );
-
-  } else {
-
-    $('bookingForm').reset();
-
-    $('quantity').value = '1';
-
-    say(
-      'bookingMessage',
-      'Your request has been submitted. It is not a confirmed booking; StarPass will review it and contact you.',
-      'success'
-    );
-
-    await loadMyRequests();
-
+    console.error(error);
+    return;
   }
 
+  currentRole = profile?.role || "customer";
+
+  if(currentRole === "admin") {
+    $("adminPanel").classList.remove("hidden");
+    await loadAdminRequests();
+  } else {
+    $("customerPanel").classList.remove("hidden");
+    await loadCustomerRequests();
+  }
+}
+
+
+/* BOOKING REQUEST */
+
+$("bookingForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  if(!currentUser) {
+    $("bookingMessage").textContent =
+      "Please sign in before submitting a request.";
+    return;
+  }
+
+  const request = {
+    user_id: currentUser.id,
+    performer: $("performer").value.trim(),
+    country: $("country").value.trim(),
+    city: $("city").value.trim(),
+    event_date: $("eventDate").value || null,
+    ticket_type: $("ticketType").value,
+    quantity: Number($("quantity").value),
+    notes: $("notes").value.trim()
+  };
+
+  $("bookingMessage").textContent = "Submitting request...";
+
+  const {error} = await supabaseClient
+    .from("booking_requests")
+    .insert(request);
+
+  if(error) {
+    $("bookingMessage").textContent = error.message;
+    return;
+  }
+
+  $("bookingMessage").textContent =
+    "Your request has been submitted successfully.";
+
+  $("bookingForm").reset();
+
+  await loadCustomerRequests();
 });
 
 
 /* CUSTOMER REQUEST HISTORY */
 
-async function loadMyRequests() {
-
-  const {data,error} = await db
-    .from('booking_requests')
-    .select('*')
-    .eq('user_id',currentUser.id)
-    .order('created_at',{ascending:false});
+async function loadCustomerRequests() {
+  const {data,error} = await supabaseClient
+    .from("booking_requests")
+    .select("*")
+    .eq("user_id", currentUser.id)
+    .order("created_at", {ascending:false});
 
   if(error) {
-
-    $('myRequests').textContent =
-      'Could not load requests: '+error.message;
-
+    $("customerRequests").textContent = error.message;
     return;
-
   }
 
-  if(!data?.length) {
-
-    $('myRequests').textContent =
-      'You have not submitted any requests yet.';
-
+  if(!data.length) {
+    $("customerRequests").innerHTML =
+      "<p class='small'>You have not submitted any requests yet.</p>";
     return;
-
   }
 
-  $('myRequests').innerHTML = data.map(b => `
-
-    <div class="notice">
-
-      <div class="inline" style="justify-content:space-between">
-
-        <strong>${safe(b.performer)}</strong>
-
-        <span class="status">
-          ${safe(b.status || 'Pending')}
-        </span>
-
-      </div>
-
-      <div class="muted">
-        ${safe(b.city)}, ${safe(b.country)}
-        · ${fmtDate(b.event_date)}
-        · ${safe(b.quantity)} ticket(s)
-      </div>
-
-      <div class="pill">
-        Submitted ${new Date(b.created_at).toLocaleString()}
-      </div>
-
-      ${b.payment_status ? `
-        <div class="pill">
-          Payment status: ${safe(b.payment_status)}
-        </div>
-      ` : ''}
-
+  $("customerRequests").innerHTML = data.map(r => `
+    <div class="request">
+      <h3>${escapeHTML(r.performer)}</h3>
+      <p class="small">${escapeHTML(r.city)}, ${escapeHTML(r.country)}</p>
+      <p class="small">Date: ${escapeHTML(r.event_date || "Not specified")}</p>
+      <p class="small">Ticket type: ${escapeHTML(r.ticket_type)}</p>
+      <p class="small">Quantity: ${r.quantity}</p>
+      <p class="status">Status: ${escapeHTML(r.status || "Pending")}</p>
     </div>
-
-  `).join('');
-
+  `).join("");
 }
 
 
-/* ADMIN DASHBOARD */
+/* ADMIN REQUESTS */
 
 async function loadAdminRequests() {
-
-  $('adminRequests').textContent = 'Loading…';
-
-  const {data,error} = await db
-    .from('booking_requests')
-    .select('*')
-    .order('created_at',{ascending:false});
+  const {data,error} = await supabaseClient
+    .from("booking_requests")
+    .select("*, profiles(full_name,email)")
+    .order("created_at", {ascending:false});
 
   if(error) {
+    $("adminRequests").textContent = error.message;
+    return;
+  }
 
-    $('adminRequests').innerHTML = `
-      <p class="error">
-        Could not load requests: ${safe(error.message)}.
-        Check the admin RLS policies and grants.
+  if(!data.length) {
+    $("adminRequests").innerHTML =
+      "<p class='small'>No booking requests yet.</p>";
+    return;
+  }
+
+  $("adminRequests").innerHTML = data.map(r => `
+    <div class="request">
+      <h3>${escapeHTML(r.performer)}</h3>
+
+      <p class="small">
+        Customer: ${escapeHTML(r.profiles?.full_name || "Customer")}
       </p>
-    `;
 
-    return;
-
-  }
-
-  cachedBookings = data || [];
-
-  $('totalCount').textContent = cachedBookings.length;
-
-  $('pendingCount').textContent =
-    cachedBookings.filter(
-      b => (b.status || 'Pending').toLowerCase() === 'pending'
-    ).length;
-
-  if(!cachedBookings.length) {
-
-    $('adminRequests').textContent =
-      'No booking requests yet.';
-
-    return;
-
-  }
-
-  const ids = [
-    ...new Set(
-      cachedBookings.map(b => b.user_id).filter(Boolean)
-    )
-  ];
-
-  let profilesById = {};
-
-  if(ids.length) {
-
-    const {data:people,error:peopleError} = await db
-      .from('profiles')
-      .select('id,full_name,email,country')
-      .in('id',ids);
-
-    if(!peopleError) {
-
-      (people || []).forEach(p => {
-        profilesById[p.id] = p;
-      });
-
-    }
-
-  }
-
-  $('adminRequests').innerHTML = `
-
-    <div class="table-wrap">
-
-      <table>
-
-        <thead>
-
-          <tr>
-            <th>Request / Customer</th>
-            <th>Event details</th>
-            <th>Status</th>
-            <th>Payment</th>
-            <th>Actions</th>
-          </tr>
-
-        </thead>
-
-        <tbody>
-
-        ${cachedBookings.map(b => {
-
-          const p = profilesById[b.user_id] || {};
-
-          return `
-
-          <tr>
-
-            <td>
-
-              <strong>${safe(b.performer)}</strong>
-
-              <br>
-
-              ${safe(p.full_name || 'Customer')}
-
-              <br>
-
-              <span class="pill">
-                ${safe(p.email || 'Email unavailable')}
-              </span>
-
-            </td>
-
-            <td>
-
-              ${safe(b.city)}, ${safe(b.country)}
-
-              <br>
-
-              ${fmtDate(b.event_date)}
-
-              <br>
-
-              ${safe(b.quantity)} ticket(s)
-              · ${safe(b.ticket_type || 'No preference')}
-
-            </td>
-
-            <td>
-
-              <select id="status-${safe(b.id)}">
-
-                <option ${b.status==='Pending'?'selected':''}>
-                  Pending
-                </option>
-
-                <option ${b.status==='Under Review'?'selected':''}>
-                  Under Review
-                </option>
-
-                <option ${b.status==='Confirmed'?'selected':''}>
-                  Confirmed
-                </option>
-
-                <option ${b.status==='Declined'?'selected':''}>
-                  Declined
-                </option>
-
-              </select>
-
-              <button
-                class="btn small"
-                onclick="window.starUpdateStatus('${safe(b.id)}')">
-                Save
-              </button>
-
-            </td>
-
-            <td>
-
-              ${safe(b.payment_status || 'Not set')}
-
-              <br>
-
-              ${b.quoted_amount != null
-                ? safe(b.currency || 'USD')+' '+safe(b.quoted_amount)
-                : 'No quote'}
-
-            </td>
-
-            <td>
-
-              <button
-                class="btn small"
-                onclick="window.starContact('${safe(b.id)}')">
-                Contact Customer
-              </button>
-
-            </td>
-
-          </tr>
-
-          `;
-
-        }).join('')}
-
-        </tbody>
-
-      </table>
-
+      <p class="small">
+        Email: ${escapeHTML(r.profiles?.email || "")}
+      </p>
+
+      <p class="small">
+        Location: ${escapeHTML(r.city)}, ${escapeHTML(r.country)}
+      </p>
+
+      <p class="small">
+        Event date: ${escapeHTML(r.event_date || "Not specified")}
+      </p>
+
+      <p class="small">
+        Ticket type: ${escapeHTML(r.ticket_type)}
+      </p>
+
+      <p class="small">Quantity: ${r.quantity}</p>
+
+      <p class="status">
+        Status: ${escapeHTML(r.status || "Pending")}
+      </p>
+
+      <label>Update Request Status</label>
+
+      <select id="status-${r.id}">
+        ${["Pending","Under Review","Available","Confirmed","Completed","Cancelled"]
+          .map(s => `<option ${r.status === s ? "selected" : ""}>${s}</option>`)
+          .join("")}
+      </select>
+
+      <div class="actions">
+        <button onclick="updateStatus('${r.id}')">
+          Update Status
+        </button>
+
+        <button class="secondary"
+          onclick="openContact('${r.id}','${escapeHTML(r.profiles?.email || "")}')">
+          Contact Customer
+        </button>
+      </div>
     </div>
-
-  `;
-
-  window._starProfiles = profilesById;
-
+  `).join("");
 }
 
 
-/* UPDATE BOOKING STATUS */
+/* UPDATE REQUEST STATUS */
 
-window.starUpdateStatus = async id => {
+window.updateStatus = async function(id) {
+  const status = $("status-" + id).value;
 
-  const status = $('status-'+id).value;
-
-  const {error} = await db
-    .from('booking_requests')
+  const {error} = await supabaseClient
+    .from("booking_requests")
     .update({status})
-    .eq('id',id);
+    .eq("id", id);
 
   if(error) {
-
-    alert('Could not update status: '+error.message);
-
-  } else {
-
-    await loadAdminRequests();
-
+    alert(error.message);
+    return;
   }
 
+  alert("Request status updated.");
+  await loadAdminRequests();
 };
 
 
-/* CONTACT CUSTOMER / PREPARE PAYMENT EMAIL */
+/* OPEN CUSTOMER EMAIL MODAL */
 
-window.starContact = id => {
+window.openContact = async function(id,email) {
+  selectedRequest = id;
 
-  const b = cachedBookings.find(
-    x => String(x.id) === String(id)
-  );
+  const {data,error} = await supabaseClient
+    .from("booking_requests")
+    .select("*")
+    .eq("id",id)
+    .single();
 
-  if(!b) return;
+  if(error) {
+    alert(error.message);
+    return;
+  }
 
-  const p = (window._starProfiles || {})[b.user_id] || {};
+  $("mailTo").value = email || "";
+  $("mailSubject").value = "Your StarPass Ticket Request";
 
-  $('mailBookingId').value = b.id;
+  $("mailAmount").value = data.quoted_amount || "";
+  $("mailCurrency").value = data.currency || "USD";
+  $("mailMethod").value = data.preferred_payment_method || "";
+  $("mailPaymentLink").value = data.payment_link || "";
+  $("mailPaymentStatus").value = data.payment_status || "Not requested";
 
-  $('mailTo').value = p.email || '';
+  $("mailBody").value =
+`Hello,
 
-  $('mailCustomer').value = p.full_name || '';
+Thank you for your interest in StarPass.
 
-  $('mailAmount').value = b.quoted_amount ?? '';
+We have reviewed your ticket request for ${data.performer}.
 
-  $('mailCurrency').value = b.currency || 'USD';
+Your request is currently being handled individually. Please review the details below.
 
-  $('mailMethod').value =
-    b.preferred_payment_method || '';
+Ticket quantity: ${data.quantity}
+Ticket type: ${data.ticket_type}
 
-  $('mailPaymentLink').value =
-    b.payment_link || '';
-
-  $('mailSubject').value =
-    'Your StarPass ticket request – next steps';
-
-  $('mailBody').value = `
-
-Hello ${p.full_name || 'there'},
-
-Thank you for submitting your ticket request for ${b.performer}.
-
-We have reviewed your request and can proceed with the following details, subject to final confirmation:
-
-Event: ${b.performer}
-Location: ${b.city}, ${b.country}
-Date: ${fmtDate(b.event_date)}
-Quantity: ${b.quantity}
-
-Confirmed total: [Enter confirmed amount and currency]
-
-Payment method: [Enter an accepted payment method]
-
-Payment link / instructions: [Add verified secure instructions]
-
-Please review the details and contact us if you have any questions.
-
-Your booking is not confirmed until payment and ticket availability have been verified and StarPass confirms the booking in writing.
-
-For your security, never send card numbers, security codes, passwords or banking PINs by email.
+We will confirm availability and the final arrangements with you.
 
 Kind regards,
+StarPass`;
+
+  $("modalMessage").textContent = "";
+  $("contactModal").classList.remove("hidden");
+};
+
+
+/* SAVE QUOTE AND PAYMENT INFORMATION */
+
+$("saveQuoteBtn").addEventListener("click", async () => {
+  if(!selectedRequest) return;
+
+  const amount = $("mailAmount").value;
+  const currency = $("mailCurrency").value;
+  const method = $("mailMethod").value.trim();
+  const paymentLink = $("mailPaymentLink").value.trim();
+  const paymentStatus = $("mailPaymentStatus").value;
+
+  if(paymentLink && !/^https:\/\//i.test(paymentLink)) {
+    $("modalMessage").textContent =
+      "Please enter a valid secure HTTPS payment link.";
+    return;
+  }
+
+  const {error} = await supabaseClient
+    .from("booking_requests")
+    .update({
+      quoted_amount: amount ? Number(amount) : null,
+      currency,
+      preferred_payment_method: method || null,
+      payment_link: paymentLink || null,
+      payment_status: paymentStatus
+    })
+    .eq("id",selectedRequest);
+
+  if(error) {
+    $("modalMessage").textContent = error.message;
+    return;
+  }
+
+  $("modalMessage").textContent =
+    "Quote and payment information saved successfully.";
+
+  await loadAdminRequests();
+});
+
+
+/* CORRECTED EMAIL FUNCTION */
+
+$("contactForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const to = $("mailTo").value.trim();
+  const subject = $("mailSubject").value.trim();
+
+  const amount = $("mailAmount").value.trim();
+  const currency = $("mailCurrency").value;
+  const method = $("mailMethod").value.trim();
+  const paymentLink = $("mailPaymentLink").value.trim();
+
+  const paymentStatus = $("mailPaymentStatus").value;
+
+  if(paymentLink && !/^https:\/\//i.test(paymentLink)) {
+    $("modalMessage").textContent =
+      "Please enter a valid secure HTTPS payment link.";
+    return;
+  }
+
+  /* BUILD EMAIL WITH THE ACTUAL FORM VALUES */
+
+  let body = $("mailBody").value.trim();
+
+  body += `
+
+------------------------------
+STARPASS PAYMENT DETAILS
+------------------------------
+
+Confirmed Amount: ${
+    amount ? currency + " " + amount : "To be confirmed"
+  }
+
+Accepted Payment Method: ${
+    method || "To be confirmed"
+  }
+
+Secure Payment Link: ${
+    paymentLink || "Payment instructions will be provided separately."
+  }
+
+Payment Status: ${paymentStatus}
+
+Please contact us if you have any questions.
 
 StarPass
 starpasstickets@gmail.com
+`;
 
-`.trim();
+  const mailto =
+    "mailto:" + encodeURIComponent(to) +
+    "?subject=" + encodeURIComponent(subject) +
+    "&body=" + encodeURIComponent(body);
 
-  $('mailMessage').textContent = '';
-
-  show('contactModal',true);
-
-};
-
-
-/* CLOSE PAYMENT EMAIL WINDOW */
-
-function closeModal() {
-  show('contactModal',false);
-}
-
-$('closeModal').onclick = closeModal;
-$('cancelModal').onclick = closeModal;
-
-
-/* OPEN EMAIL APP FOR REVIEW AND SENDING */
-
-$('paymentEmailForm').addEventListener('submit',e => {
-
-  e.preventDefault();
-
-  const to = $('mailTo').value.trim();
-
-  const subject = $('mailSubject').value;
-
-  const body = $('mailBody').value;
-
-  if(!to) {
-
-    return say(
-      'mailMessage',
-      'Customer email is missing.',
-      'error'
-    );
-
-  }
-
-  const url =
-    'mailto:'+encodeURIComponent(to)+
-    '?subject='+encodeURIComponent(subject)+
-    '&body='+encodeURIComponent(body);
-
-  window.location.href = url;
-
-  say(
-    'mailMessage',
-    'Your email app should open with this draft. Review it and press Send in your email app. StarPass cannot verify that it was sent.',
-    'success'
-  );
-
+  window.location.href = mailto;
 });
 
 
-/* SAVE QUOTE AND PAYMENT DETAILS */
+/* CLOSE EMAIL MODAL */
 
-$('savePayment').addEventListener('click',async() => {
+$("closeModal").addEventListener("click", () => {
+  $("contactModal").classList.add("hidden");
+});
 
-  const id = $('mailBookingId').value;
 
-  const amount =
-    $('mailAmount').value === ''
-      ? null
-      : Number($('mailAmount').value);
+/* SIGN OUT */
 
-  const updates = {
-
-    quoted_amount:amount,
-
-    currency:$('mailCurrency').value,
-
-    preferred_payment_method:$('mailMethod').value.trim(),
-
-    payment_link:$('mailPaymentLink').value.trim() || null,
-
-    payment_status:'Instructions prepared'
-
-  };
-
-  const {error} = await db
-    .from('booking_requests')
-    .update(updates)
-    .eq('id',id);
+async function signOut() {
+  const {error} = await supabaseClient.auth.signOut();
 
   if(error) {
-
-    say(
-      'mailMessage',
-      'Could not save payment details: '+error.message,
-      'error'
-    );
-
-  } else {
-
-    say(
-      'mailMessage',
-      'Quote and payment details saved. The customer has not been emailed automatically.',
-      'success'
-    );
-
-    await loadAdminRequests();
-
+    alert(error.message);
+    return;
   }
 
+  currentUser = null;
+  currentRole = "customer";
+
+  await loadSession();
+}
+
+$("logoutBtn").addEventListener("click",signOut);
+$("adminLogoutBtn").addEventListener("click",signOut);
+
+
+/* HTML ESCAPING */
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#039;"
+  })[char]);
+}
+
+
+/* AUTH STATE CHANGES */
+
+supabaseClient.auth.onAuthStateChange(() => {
+  setTimeout(loadSession,100);
 });
 
 
-document.addEventListener('keydown',e => {
+/* INITIALISE */
 
-  if(e.key === 'Escape') closeModal();
-
-});
-
-
-renderSignedOut();
-
-refreshSession();
-
+(async function init() {
+  await checkPasswordRecovery();
+  await loadSession();
 })();
 </script>
 

@@ -3,649 +3,539 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10100f">
 
 <title>StarPass | Premium Ticket Concierge</title>
 
-<meta name="description" content="StarPass helps you request tickets to concerts, sporting events and unforgettable live experiences around the world.">
+<meta name="description" content="Your Favourite Stars. Your Next Experience. Discover premium ticket experiences with StarPass.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root {
-    --black: #090909;
-    --dark: #111111;
-    --dark-card: #171717;
-    --gold: #c8a96b;
-    --gold-light: #e5d0a0;
-    --cream: #f5f0e6;
-    --muted: #aaa49a;
-    --border: rgba(200,169,107,0.22);
+    --black:#10100f;
+    --panel:#191916;
+    --panel2:#22211d;
+    --gold:#c9a96e;
+    --gold-light:#e4cc9d;
+    --cream:#f5f0e7;
+    --muted:#aaa59a;
+    --line:rgba(228,204,157,.19);
+    --green:#9bc5a2;
+    --red:#e5a19b;
 }
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
+    box-sizing:border-box;
 }
 
 body {
-    background: var(--black);
-    color: var(--cream);
-    font-family: 'DM Sans', sans-serif;
-    line-height: 1.6;
+    margin:0;
+    background:var(--black);
+    color:var(--cream);
+    font-family:"DM Sans",sans-serif;
+    line-height:1.6;
 }
 
-button, input, select, textarea {
-    font-family: inherit;
+button,input,select,textarea {
+    font:inherit;
 }
 
-a {
-    color: inherit;
-    text-decoration: none;
+button {
+    cursor:pointer;
 }
 
-.container {
-    width: min(1120px, 90%);
-    margin: auto;
+.hidden {
+    display:none!important;
 }
 
-.gold {
-    color: var(--gold);
+.topline {
+    height:3px;
+    background:linear-gradient(90deg,#80623b,var(--gold-light),#80623b);
 }
-
-/* NAVIGATION */
 
 header {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background: rgba(9,9,9,0.96);
-    backdrop-filter: blur(15px);
-    border-bottom: 1px solid var(--border);
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:rgba(16,16,15,.95);
+    backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--line);
 }
 
-nav {
-    min-height: 82px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.nav {
+    max-width:1180px;
+    margin:auto;
+    padding:17px 24px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
 }
 
-.logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 35px;
-    font-weight: 700;
-    letter-spacing: 2px;
+.brand {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:var(--cream);
+    text-decoration:none;
 }
 
-.logo span {
-    color: var(--gold);
+.brand-mark {
+    width:40px;
+    height:40px;
+    border:1px solid var(--gold);
+    display:grid;
+    place-items:center;
+    color:var(--gold);
+    font-family:"Playfair Display",serif;
+    font-size:25px;
 }
 
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: 30px;
+.brand-name {
+    font-family:"Playfair Display",serif;
+    font-size:24px;
+    letter-spacing:2px;
 }
 
-.nav-links a {
-    color: #d4cec2;
-    font-size: 13px;
-    transition: .3s;
+.brand-name span {
+    color:var(--gold);
 }
 
-.nav-links a:hover {
-    color: var(--gold);
+.nav-right {
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
-.nav-button {
-    border: 1px solid var(--gold);
-    padding: 11px 20px;
-    color: var(--gold) !important;
-}
-
-.menu-toggle {
-    display: none;
-    background: none;
-    border: none;
-    color: var(--gold);
-    font-size: 27px;
-    cursor: pointer;
-}
-
-/* HERO */
-
-.hero {
-    min-height: 670px;
-    display: flex;
-    align-items: center;
-    background:
-        linear-gradient(90deg, rgba(0,0,0,.95), rgba(0,0,0,.65)),
-        radial-gradient(circle at 80% 40%, #4c3a20 0%, #17130d 35%, #090909 75%);
-    border-bottom: 1px solid var(--border);
-}
-
-.hero-content {
-    max-width: 760px;
-    padding: 100px 0;
+.wrap {
+    max-width:1180px;
+    margin:auto;
+    padding:0 24px;
 }
 
 .eyebrow {
-    color: var(--gold);
-    text-transform: uppercase;
-    letter-spacing: 4px;
-    font-size: 11px;
-    font-weight: 600;
-    margin-bottom: 25px;
+    color:var(--gold);
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:2.6px;
+    text-transform:uppercase;
+}
+
+.hero {
+    padding:85px 0 70px;
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:55px;
+    align-items:center;
 }
 
 .hero h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(48px, 7vw, 82px);
-    line-height: 1.04;
-    font-weight: 500;
-    margin-bottom: 25px;
+    font:600 clamp(43px,6vw,74px)/1.08 "Playfair Display",serif;
+    margin:18px 0;
+    letter-spacing:-1.5px;
 }
 
-.hero h1 span {
-    color: var(--gold-light);
-    font-style: italic;
+.hero h1 em {
+    color:var(--gold-light);
+    font-style:normal;
 }
 
 .hero p {
-    max-width: 560px;
-    color: #c0b9ad;
-    font-size: 16px;
-    line-height: 1.9;
-    margin-bottom: 35px;
+    color:#c0baae;
+    max-width:580px;
+    font-size:16px;
 }
 
-.button {
-    display: inline-block;
-    padding: 15px 27px;
-    background: var(--gold);
-    color: #111;
-    border: 1px solid var(--gold);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: .3s;
+.hero-card {
+    border:1px solid var(--line);
+    background:linear-gradient(145deg,#24231f,#141412);
+    padding:35px;
+    min-height:300px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
 }
 
-.button:hover {
-    background: transparent;
-    color: var(--gold);
+.hero-card h2 {
+    font:500 30px "Playfair Display",serif;
 }
 
-.button-outline {
-    background: transparent;
-    color: var(--gold);
+.hero-card p {
+    font-size:14px;
 }
 
-.button-outline:hover {
-    background: var(--gold);
-    color: #111;
+.card-foot {
+    color:var(--gold-light);
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
 }
 
-/* SECTIONS */
-
-section {
-    padding: 90px 0;
+.section {
+    padding:40px 0 75px;
 }
 
-.section-heading {
-    text-align: center;
-    margin-bottom: 50px;
+.section-head {
+    margin-bottom:25px;
 }
 
-.section-heading .eyebrow {
-    margin-bottom: 12px;
+.section-head h2 {
+    font:500 35px "Playfair Display",serif;
+    margin:8px 0;
 }
 
-.section-heading h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(36px, 5vw, 52px);
-    font-weight: 500;
+.section-head p {
+    color:var(--muted);
 }
 
-.section-heading p {
-    color: var(--muted);
-    max-width: 600px;
-    margin: 15px auto 0;
-    font-size: 14px;
+.panel {
+    background:var(--panel);
+    border:1px solid var(--line);
+    padding:27px;
 }
 
-/* INTRO */
-
-.intro-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 70px;
-    align-items: center;
+.auth-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
 }
 
-.intro-text h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 47px;
-    line-height: 1.15;
-    font-weight: 500;
-    margin-bottom: 22px;
+.auth-intro {
+    padding:20px 10px;
 }
 
-.intro-text p {
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 2;
-    margin-bottom: 18px;
+.auth-intro h2 {
+    font:500 36px "Playfair Display",serif;
 }
 
-.intro-box {
-    background: linear-gradient(145deg, #211d16, #111);
-    border: 1px solid var(--border);
-    padding: 45px;
+.muted {
+    color:var(--muted);
 }
 
-.intro-box h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 32px;
-    color: var(--gold);
-    margin-bottom: 15px;
-}
-
-.intro-box p {
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.9;
-}
-
-/* PROCESS */
-
-.process {
-    background: #101010;
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-}
-
-.process-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-}
-
-.process-card {
-    padding: 35px 28px;
-    border: 1px solid var(--border);
-    background: var(--dark-card);
-}
-
-.process-number {
-    font-family: 'Cormorant Garamond', serif;
-    color: var(--gold);
-    font-size: 45px;
-    margin-bottom: 15px;
-}
-
-.process-card h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 25px;
-    margin-bottom: 12px;
-}
-
-.process-card p {
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.9;
-}
-
-/* BOOKING */
-
-.booking-section {
-    background: var(--black);
-}
-
-.booking-layout {
-    display: grid;
-    grid-template-columns: .8fr 1.2fr;
-    gap: 45px;
-    align-items: start;
-}
-
-.booking-info h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 45px;
-    line-height: 1.15;
-    margin-bottom: 20px;
-}
-
-.booking-info p {
-    color: var(--muted);
-    font-size: 14px;
-    line-height: 1.9;
-}
-
-.booking-info .small-note {
-    margin-top: 25px;
-    padding: 18px;
-    border-left: 2px solid var(--gold);
-    background: #151515;
-}
-
-.form-card {
-    background: #141414;
-    border: 1px solid var(--border);
-    padding: 35px;
-}
-
-.form-card h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 30px;
-    margin-bottom: 25px;
-}
-
-.form-group {
-    margin-bottom: 19px;
-}
-
-.form-group label {
-    display: block;
-    color: #d8d0c3;
-    font-size: 12px;
-    margin-bottom: 8px;
-}
-
-.form-group input,
-.form-group select,
-.form-group textarea {
-    width: 100%;
-    padding: 14px;
-    background: #0b0b0b;
-    border: 1px solid #38332a;
-    color: var(--cream);
-    outline: none;
-    font-size: 13px;
-}
-
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    border-color: var(--gold);
-}
-
-.form-group textarea {
-    min-height: 110px;
-    resize: vertical;
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-}
-
-.form-card .button {
-    width: 100%;
+.tiny {
+    color:var(--muted);
+    font-size:12px;
 }
 
 .notice {
-    color: var(--muted);
-    font-size: 11px;
-    margin-top: 16px;
-    line-height: 1.8;
+    padding:13px;
+    border:1px solid var(--line);
+    background:#201f1b;
+    color:#d8c9a8;
+    font-size:13px;
+    margin:16px 0;
 }
 
-/* AUTHENTICATION */
-
-.account-section {
-    background: #101010;
-    border-top: 1px solid var(--border);
+.form-grid {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
 }
 
-.auth-card {
-    max-width: 510px;
-    margin: auto;
-    background: #171717;
-    border: 1px solid var(--border);
-    padding: 35px;
+.field {
+    display:flex;
+    flex-direction:column;
+    gap:7px;
 }
 
-.auth-tabs {
-    display: flex;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 25px;
+.field.full {
+    grid-column:1/-1;
 }
 
-.auth-tabs button {
-    flex: 1;
-    background: none;
-    border: none;
-    color: var(--muted);
-    padding: 14px;
-    cursor: pointer;
-    font-size: 13px;
+label {
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:#c9c2b5;
 }
 
-.auth-tabs button.active {
-    color: var(--gold);
-    border-bottom: 2px solid var(--gold);
+input,select,textarea {
+    width:100%;
+    border:1px solid #39372f;
+    background:#11110f;
+    color:var(--cream);
+    padding:13px;
+    outline:none;
+    border-radius:0;
 }
 
-.auth-card h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 31px;
-    margin-bottom: 20px;
+input:focus,select:focus,textarea:focus {
+    border-color:var(--gold);
 }
 
-.auth-card .button {
-    width: 100%;
+textarea {
+    min-height:95px;
+    resize:vertical;
 }
 
-.auth-link {
-    display: block;
-    color: var(--gold);
-    font-size: 12px;
-    margin-top: 16px;
-    text-align: center;
-    cursor: pointer;
+.btn {
+    border:1px solid var(--gold);
+    background:var(--gold);
+    color:#171510;
+    padding:12px 19px;
+    font-weight:700;
+    font-size:11px;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    transition:.2s;
 }
 
-#authMessage,
-#bookingMessage,
-#dashboardMessage {
-    font-size: 13px;
-    margin-top: 15px;
-    line-height: 1.7;
+.btn:hover {
+    background:var(--gold-light);
+    border-color:var(--gold-light);
 }
 
-.success {
-    color: #8fd5a3;
+.btn.secondary {
+    background:transparent;
+    color:var(--gold-light);
+}
+
+.btn.ghost {
+    background:transparent;
+    color:var(--cream);
+    border-color:#4b483f;
+}
+
+.btn.small {
+    padding:8px 11px;
+    font-size:10px;
+}
+
+.btn.danger {
+    background:transparent;
+    color:var(--red);
+    border-color:#85514d;
+}
+
+.actions {
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-top:18px;
+}
+
+.message {
+    margin-top:13px;
+    font-size:13px;
 }
 
 .error {
-    color: #ff9999;
+    color:var(--red);
 }
 
-/* DASHBOARD */
+.success {
+    color:var(--green);
+}
 
 .dashboard {
-    display: none;
-    background: #101010;
-    border-top: 1px solid var(--border);
+    padding:40px 0 80px;
 }
 
-.dashboard-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 30px;
+.dash-top {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+    margin-bottom:25px;
 }
 
-.dashboard-header h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 40px;
+.dash-top h1 {
+    font:500 39px "Playfair Display",serif;
+    margin:5px 0;
 }
 
-.logout-button {
-    background: transparent;
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    padding: 11px 18px;
-    cursor: pointer;
+.dash-top p {
+    color:var(--muted);
 }
 
-.booking-list {
-    display: grid;
-    gap: 15px;
+.pill {
+    font-size:10px;
+    border:1px solid var(--line);
+    color:var(--gold-light);
+    padding:7px 10px;
+    letter-spacing:1px;
+    text-transform:uppercase;
 }
 
-.booking-item {
-    background: #191919;
-    border: 1px solid var(--border);
-    padding: 23px;
+.tabs {
+    display:flex;
+    gap:8px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:22px;
+    overflow:auto;
 }
 
-.booking-item h4 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 25px;
-    color: var(--gold);
-    margin-bottom: 10px;
+.tab {
+    background:none;
+    border:0;
+    color:var(--muted);
+    padding:12px 16px;
+    border-bottom:2px solid transparent;
+    white-space:nowrap;
 }
 
-.booking-item p {
-    font-size: 13px;
-    color: var(--muted);
-    margin: 5px 0;
+.tab.active {
+    color:var(--gold-light);
+    border-color:var(--gold);
+}
+
+.stats {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:13px;
+    margin-bottom:22px;
+}
+
+.stat {
+    padding:19px;
+    background:var(--panel);
+    border:1px solid var(--line);
+}
+
+.stat span {
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1.5px;
+    color:var(--muted);
+}
+
+.stat strong {
+    display:block;
+    font:500 30px "Playfair Display",serif;
+    margin-top:5px;
+}
+
+.table-wrap {
+    overflow:auto;
+    border:1px solid var(--line);
+}
+
+table {
+    width:100%;
+    border-collapse:collapse;
+    min-width:780px;
+    background:var(--panel);
+}
+
+th,td {
+    text-align:left;
+    padding:14px;
+    border-bottom:1px solid #333128;
+    font-size:12px;
+    vertical-align:top;
+}
+
+th {
+    font-size:10px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:var(--gold-light);
+    background:#201f1b;
+}
+
+td {
+    color:#ded8cd;
 }
 
 .status {
-    display: inline-block;
-    margin-top: 12px;
-    padding: 5px 12px;
-    border: 1px solid var(--gold);
-    color: var(--gold);
-    font-size: 11px;
+    display:inline-block;
+    padding:5px 8px;
+    border:1px solid var(--line);
+    font-size:10px;
+    text-transform:uppercase;
+    color:var(--gold-light);
 }
 
-/* CONTACT */
-
-.contact {
-    text-align: center;
-    background: linear-gradient(140deg, #201a10, #090909);
-    border-top: 1px solid var(--border);
+.status.confirmed {
+    color:var(--green);
+    border-color:#47634c;
 }
 
-.contact h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 48px;
-    margin-bottom: 15px;
+.status.declined {
+    color:var(--red);
+    border-color:#754a46;
 }
 
-.contact p {
-    color: var(--muted);
-    font-size: 14px;
-    margin-bottom: 25px;
+.status.under-review {
+    color:#e8c78b;
 }
 
-.contact a.email-link {
-    color: var(--gold);
-    font-size: 17px;
+.empty {
+    padding:30px;
+    text-align:center;
+    color:var(--muted);
+    border:1px dashed #494438;
 }
 
-/* FOOTER */
-
-footer {
-    padding: 35px 0;
-    border-top: 1px solid var(--border);
-    text-align: center;
+.footer {
+    border-top:1px solid var(--line);
+    padding:28px 0;
+    color:#888276;
+    font-size:11px;
 }
 
-footer .logo {
-    font-size: 29px;
-    margin-bottom: 10px;
+.footer-inner {
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    flex-wrap:wrap;
 }
 
-footer p {
-    font-size: 11px;
-    color: var(--muted);
-    margin-top: 7px;
+.link {
+    color:var(--gold-light);
+    text-decoration:none;
 }
 
-/* RESPONSIVE */
-
-@media(max-width: 800px) {
-
-    .menu-toggle {
-        display: block;
-    }
-
-    .nav-links {
-        display: none;
-        position: absolute;
-        top: 82px;
-        left: 0;
-        width: 100%;
-        background: #101010;
-        padding: 25px;
-        flex-direction: column;
-        align-items: flex-start;
-        border-bottom: 1px solid var(--border);
-    }
-
-    .nav-links.show {
-        display: flex;
-    }
-
+@media(max-width:800px) {
     .hero {
-        min-height: 580px;
+        grid-template-columns:1fr;
+        padding:55px 0 40px;
+        gap:25px;
     }
 
-    .intro-grid,
-    .booking-layout {
-        grid-template-columns: 1fr;
-        gap: 35px;
+    .auth-grid {
+        grid-template-columns:1fr;
     }
 
-    .process-grid {
-        grid-template-columns: 1fr;
+    .stats {
+        grid-template-columns:1fr 1fr;
     }
 
-    .intro-box {
-        padding: 30px;
+    .dash-top {
+        align-items:flex-start;
+        flex-direction:column;
     }
 
-    .form-card,
-    .auth-card {
-        padding: 25px 20px;
-    }
-
-    section {
-        padding: 70px 0;
-    }
-
-    .dashboard-header {
-        align-items: flex-start;
-        flex-direction: column;
+    .wrap {
+        padding:0 17px;
     }
 }
 
-@media(max-width: 480px) {
-    .form-row {
-        grid-template-columns: 1fr;
-        gap: 0;
+@media(max-width:520px) {
+    .form-grid {
+        grid-template-columns:1fr;
+    }
+
+    .field.full {
+        grid-column:auto;
+    }
+
+    .panel {
+        padding:19px;
     }
 
     .hero h1 {
-        font-size: 48px;
+        font-size:44px;
+    }
+
+    .brand-name {
+        font-size:20px;
     }
 }
 </style>
@@ -653,1056 +543,590 @@ footer p {
 
 <body>
 
+<div class="topline"></div>
+
 <header>
-    <div class="container">
-        <nav>
-            <a href="#" class="logo">STAR<span>PASS</span></a>
+<nav class="nav">
 
-            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+<a class="brand" href="#">
+    <span class="brand-mark">S</span>
+    <span class="brand-name">STAR<span>PASS</span></span>
+</a>
 
-            <div class="nav-links" id="navLinks">
-                <a href="#home" onclick="closeMenu()">Home</a>
-                <a href="#about" onclick="closeMenu()">About</a>
-                <a href="#process" onclick="closeMenu()">How It Works</a>
-                <a href="#booking" onclick="closeMenu()">Request Tickets</a>
-                <a href="#account" class="nav-button" onclick="closeMenu()">My Account</a>
-            </div>
-        </nav>
-    </div>
+<div class="nav-right">
+    <span class="pill">Premium Ticket Concierge</span>
+    <button id="navSignIn" class="btn secondary small" onclick="showAuth()">Sign In</button>
+    <button id="navLogout" class="btn ghost small hidden" onclick="signOut()">Sign Out</button>
+</div>
+
+</nav>
 </header>
 
-<!-- HERO -->
+<main id="publicView">
+<div class="wrap">
 
-<section class="hero" id="home">
-    <div class="container">
-        <div class="hero-content">
-            <div class="eyebrow">The Art of Extraordinary Experiences</div>
+<section class="hero">
 
-            <h1>
-                Exceptional experiences.<br>
-                <span>Beautifully within reach.</span>
-            </h1>
+<div>
+    <div class="eyebrow">The Experience Starts Here</div>
 
-            <p>
-                From unforgettable concerts to world-class sporting events,
-                StarPass makes requesting your next extraordinary experience
-                simple, personal and seamless.
-            </p>
+    <h1>
+        Your Favourite Stars.<br>
+        <em>Your Next Experience.</em>
+    </h1>
 
-            <a href="#booking" class="button">Request Your Tickets</a>
-        </div>
+    <p>
+        Tell us which artist, team or live event you would love to experience.
+        Our concierge service will review your request and follow up with
+        verified options, availability and pricing.
+    </p>
+
+    <div class="actions">
+        <button class="btn" onclick="showAuth()">Request Tickets</button>
+        <a class="btn ghost" href="#how">How It Works</a>
     </div>
-</section>
-
-<!-- ABOUT -->
-
-<section id="about">
-    <div class="container">
-        <div class="intro-grid">
-
-            <div class="intro-text">
-                <div class="eyebrow">Welcome to StarPass</div>
-
-                <h2>Your next unforgettable experience starts here.</h2>
-
-                <p>
-                    Some moments deserve to be experienced in person.
-                    The atmosphere, the excitement, the energy of being
-                    there — these are the experiences worth remembering.
-                </p>
-
-                <p>
-                    StarPass provides a convenient way to submit ticket
-                    requests for concerts, entertainment, sporting events
-                    and other live experiences across selected international
-                    markets.
-                </p>
-
-                <a href="#booking" class="button button-outline">
-                    Make a Request
-                </a>
-            </div>
-
-            <div class="intro-box">
-                <h3>Beyond the Ordinary.</h3>
-
-                <p>
-                    Tell us which artist, team or event you would love to
-                    experience. Our team will review your request, check
-                    available options and provide further information
-                    about pricing and availability.
-                </p>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-<!-- PROCESS -->
-
-<section class="process" id="process">
-    <div class="container">
-
-        <div class="section-heading">
-            <div class="eyebrow">A Simple Journey</div>
-            <h2>How StarPass Works</h2>
-            <p>
-                A straightforward request process designed to make
-                planning your next experience easier.
-            </p>
-        </div>
-
-        <div class="process-grid">
-
-            <div class="process-card">
-                <div class="process-number">01</div>
-                <h3>Submit Your Request</h3>
-                <p>
-                    Tell us the event, artist, team, preferred location,
-                    date and ticket quantity you are interested in.
-                </p>
-            </div>
-
-            <div class="process-card">
-                <div class="process-number">02</div>
-                <h3>We Review Your Request</h3>
-                <p>
-                    We review your request and check whether suitable
-                    ticket options and availability can be verified.
-                </p>
-            </div>
-
-            <div class="process-card">
-                <div class="process-number">03</div>
-                <h3>Receive Confirmation</h3>
-                <p>
-                    If suitable tickets can be secured, we provide
-                    the relevant details, pricing and next steps.
-                </p>
-            </div>
-
-        </div>
-    </div>
-</section>
-
-<!-- BOOKING -->
-
-<section class="booking-section" id="booking">
-    <div class="container">
-
-        <div class="booking-layout">
-
-            <div class="booking-info">
-                <div class="eyebrow">Your Experience Awaits</div>
-
-                <h2>Tell us what you would love to experience.</h2>
-
-                <p>
-                    Complete the request form with your preferred event
-                    details. You can request concerts, sporting events,
-                    festivals and other live entertainment.
-                </p>
-
-                <p class="small-note">
-                    Submitting a request does not constitute a confirmed
-                    booking or ticket purchase. All availability, ticket
-                    validity and final pricing must be verified before
-                    payment is requested.
-                </p>
-            </div>
-
-            <div class="form-card">
-
-                <h3>Ticket Request Form</h3>
-
-                <form id="bookingForm">
-
-                    <div class="form-group">
-                        <label>Artist, Team or Event *</label>
-                        <input
-                            type="text"
-                            id="performer"
-                            placeholder="Enter the artist, team or event name"
-                            required
-                        >
-                    </div>
-
-                    <div class="form-group">
-                        <label>Country *</label>
-                        <select id="country" required>
-                            <option value="">Select country</option>
-                            <option>United States</option>
-                            <option>United Kingdom</option>
-                            <option>Canada</option>
-                            <option>Australia</option>
-                            <option>Germany</option>
-                            <option>France</option>
-                            <option>Italy</option>
-                            <option>Spain</option>
-                            <option>Netherlands</option>
-                            <option>Switzerland</option>
-                            <option>Austria</option>
-                            <option>Belgium</option>
-                            <option>Sweden</option>
-                            <option>Norway</option>
-                            <option>Denmark</option>
-                            <option>Ireland</option>
-                            <option>Portugal</option>
-                            <option>Other</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Preferred City or Venue *</label>
-                        <input
-                            type="text"
-                            id="city"
-                            placeholder="Enter your preferred city or venue"
-                            required
-                        >
-                    </div>
-
-                    <div class="form-row">
-
-                        <div class="form-group">
-                            <label>Preferred Event Date</label>
-                            <input type="date" id="eventDate">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Ticket Quantity *</label>
-                            <select id="quantity" required>
-                                <option value="">Select quantity</option>
-                                <option value="1">1 Ticket</option>
-                                <option value="2">2 Tickets</option>
-                                <option value="3">3 Tickets</option>
-                                <option value="4">4 Tickets</option>
-                                <option value="5">5 Tickets</option>
-                                <option value="6">6 Tickets</option>
-                                <option value="7">7 Tickets</option>
-                                <option value="8">8 Tickets</option>
-                                <option value="9">9 Tickets</option>
-                                <option value="10">10 Tickets</option>
-                            </select>
-                        </div>
-
-                    </div>
-
-                    <div class="form-group">
-                        <label>Ticket Preference</label>
-                        <select id="ticketType">
-                            <option value="">Select preference</option>
-                            <option>Standard Admission</option>
-                            <option>General Admission</option>
-                            <option>VIP</option>
-                            <option>Premium Seating</option>
-                            <option>Front Row</option>
-                            <option>Hospitality Package</option>
-                            <option>Best Available</option>
-                            <option>Other</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Additional Information</label>
-                        <textarea
-                            id="notes"
-                            placeholder="Tell us more about your preferred experience..."
-                        ></textarea>
-                    </div>
-
-                    <button type="submit" class="button" id="bookingButton">
-                        Submit Ticket Request
-                    </button>
-
-                    <div id="bookingMessage"></div>
-
-                    <p class="notice">
-                        You must be logged in to submit a request.
-                        Your request will be reviewed before any payment
-                        instructions or confirmation are provided.
-                    </p>
-
-                </form>
-
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ACCOUNT -->
-
-<section class="account-section" id="account">
-    <div class="container">
-
-        <div class="section-heading">
-            <div class="eyebrow">Your StarPass Account</div>
-            <h2>Welcome to Your Account</h2>
-            <p>
-                Create an account or sign in to manage your ticket requests.
-            </p>
-        </div>
-
-        <div class="auth-card" id="authCard">
-
-            <div class="auth-tabs">
-                <button class="active" id="loginTab" onclick="showAuth('login')">
-                    Sign In
-                </button>
-
-                <button id="signupTab" onclick="showAuth('signup')">
-                    Create Account
-                </button>
-            </div>
-
-            <!-- LOGIN -->
-
-            <div id="loginForm">
-                <h3>Sign In</h3>
-
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="loginEmail" placeholder="Your email address">
-                </div>
-
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="loginPassword" placeholder="Your password">
-                </div>
-
-                <button class="button" onclick="loginUser()">
-                    Sign In to Your Account
-                </button>
-
-                <a class="auth-link" onclick="showForgotPassword()">
-                    Forgot your password?
-                </a>
-            </div>
-
-            <!-- SIGNUP -->
-
-            <div id="signupForm" style="display:none;">
-                <h3>Create Your Account</h3>
-
-                <div class="form-group">
-                    <label>Full Name</label>
-                    <input type="text" id="signupName" placeholder="Your full name">
-                </div>
-
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="signupEmail" placeholder="Your email address">
-                </div>
-
-                <div class="form-group">
-                    <label>Country</label>
-                    <input type="text" id="signupCountry" placeholder="Your country">
-                </div>
-
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="signupPassword" placeholder="Create a password">
-                </div>
-
-                <button class="button" onclick="signupUser()">
-                    Create My Account
-                </button>
-            </div>
-
-            <!-- FORGOT PASSWORD -->
-
-            <div id="forgotForm" style="display:none;">
-                <h3>Reset Your Password</h3>
-
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="resetEmail" placeholder="Your registered email">
-                </div>
-
-                <button class="button" onclick="sendPasswordReset()">
-                    Send Reset Link
-                </button>
-
-                <a class="auth-link" onclick="showAuth('login')">
-                    Back to Sign In
-                </a>
-            </div>
-
-            <!-- UPDATE PASSWORD -->
-
-            <div id="updatePasswordForm" style="display:none;">
-                <h3>Create a New Password</h3>
-
-                <div class="form-group">
-                    <label>New Password</label>
-                    <input type="password" id="newPassword" placeholder="Enter your new password">
-                </div>
-
-                <button class="button" onclick="updatePassword()">
-                    Update Password
-                </button>
-            </div>
-
-            <div id="authMessage"></div>
-
-        </div>
-    </div>
-</section>
-
-<!-- DASHBOARD -->
-
-<section class="dashboard" id="dashboard">
-    <div class="container">
-
-        <div class="dashboard-header">
-            <div>
-                <div class="eyebrow">Your Personal Space</div>
-                <h2>My Dashboard</h2>
-                <p id="welcomeMessage" style="color:var(--muted);font-size:13px;"></p>
-            </div>
-
-            <button class="logout-button" onclick="logoutUser()">
-                Sign Out
-            </button>
-        </div>
-
-        <div class="section-heading" style="text-align:left;margin-bottom:25px;">
-            <h2 style="font-size:32px;">My Ticket Requests</h2>
-        </div>
-
-        <div id="bookingList" class="booking-list">
-            <p style="color:var(--muted);">Loading your requests...</p>
-        </div>
-
-        <div id="dashboardMessage"></div>
-
-    </div>
-</section>
-
-<!-- CONTACT -->
-
-<section class="contact" id="contact">
-    <div class="container">
-
-        <div class="eyebrow">We're Here to Help</div>
-
-        <h2>Let's Make It Memorable.</h2>
-
+</div>
+
+<aside class="hero-card">
+    <div>
+        <div class="eyebrow">A More Considered Way to Book</div>
+        <h2>Make Room for Unforgettable Moments.</h2>
         <p>
-            Have a question about your request? Get in touch with our team.
+            Personalised assistance. Clear communication.
+            A premium request experience designed around your plans.
         </p>
-
-        <a class="email-link" href="mailto:starpasstickets@gmail.com">
-            starpasstickets@gmail.com
-        </a>
-
-        <br><br>
-
-        <a href="#booking" class="button">Start Your Request</a>
-
     </div>
+
+    <div class="card-foot">
+        Discover · Request · Experience
+    </div>
+</aside>
+
 </section>
 
-<!-- FOOTER -->
+<section class="section" id="how">
 
-<footer>
-    <div class="container">
+<div class="section-head">
+    <div class="eyebrow">The StarPass Approach</div>
+    <h2>Simple. Considered. Personal.</h2>
+    <p>
+        Every event and ticket option is reviewed before any payment is requested.
+    </p>
+</div>
 
-        <div class="logo">STAR<span>PASS</span></div>
+<div class="auth-grid">
 
-        <p>Your Favourite Stars. Your Next Experience.</p>
+<div class="panel">
+    <div class="eyebrow">01 / Tell Us What You Want</div>
+    <h3 style="font:500 25px 'Playfair Display'">Share Your Event Details</h3>
+    <p class="muted">
+        Enter the artist, team or event, your preferred location,
+        date and ticket requirements.
+    </p>
+</div>
 
-        <p>
-            © <span id="year"></span> StarPass. All Rights Reserved.
-        </p>
+<div class="panel">
+    <div class="eyebrow">02 / We Review Your Request</div>
+    <h3 style="font:500 25px 'Playfair Display'">Receive Verified Options</h3>
+    <p class="muted">
+        We review availability and follow up with details and final pricing
+        when a suitable option can be sourced.
+    </p>
+</div>
 
-        <p>
-            StarPass is a ticket request service. Requests are subject
-            to availability, verification and confirmation.
-        </p>
+</div>
+</section>
+</div>
+</main>
 
+<!-- AUTHENTICATION -->
+
+<section id="authView" class="wrap section hidden">
+
+<div class="auth-grid">
+
+<div class="auth-intro">
+    <div class="eyebrow">Your StarPass Account</div>
+    <h2>Access Your Next Experience.</h2>
+
+    <p class="muted">
+        Create an account to submit ticket requests and securely
+        follow their progress.
+    </p>
+
+    <div class="notice">
+        Submitting a request does not guarantee availability
+        or confirm a booking. Payment instructions are provided
+        only after options have been reviewed.
     </div>
+
+    <button class="btn ghost" onclick="showPublic()">Back to StarPass</button>
+</div>
+
+<div class="panel">
+
+<div class="tabs">
+    <button class="tab active" id="loginTab" onclick="setAuthMode('login')">Sign In</button>
+    <button class="tab" id="signupTab" onclick="setAuthMode('signup')">Create Account</button>
+    <button class="tab" id="resetTab" onclick="setAuthMode('reset')">Reset Password</button>
+</div>
+
+<form id="authForm">
+
+<div id="nameField" class="field hidden" style="margin-bottom:14px">
+    <label>Full Name</label>
+    <input id="fullName" autocomplete="name" placeholder="Your full name">
+</div>
+
+<div id="countryField" class="field hidden" style="margin-bottom:14px">
+    <label>Country</label>
+    <input id="accountCountry" placeholder="Your country">
+</div>
+
+<div class="field" style="margin-bottom:14px">
+    <label>Email Address</label>
+    <input id="authEmail" type="email" autocomplete="email" required placeholder="you@example.com">
+</div>
+
+<div id="passwordField" class="field">
+    <label>Password</label>
+    <input id="authPassword" type="password" minlength="6" placeholder="At least 6 characters">
+</div>
+
+<div class="actions">
+    <button id="authSubmit" class="btn" type="submit">Sign In</button>
+</div>
+
+<div id="authMessage" class="message"></div>
+
+</form>
+</div>
+</div>
+</section>
+
+<!-- CUSTOMER DASHBOARD -->
+
+<section id="customerView" class="dashboard hidden">
+<div class="wrap">
+
+<div class="dash-top">
+<div>
+    <div class="eyebrow">Customer Account</div>
+    <h1>Welcome, <span id="customerName">there</span>.</h1>
+    <p>Submit a new request and follow its progress.</p>
+</div>
+
+<span class="pill">Private Account</span>
+</div>
+
+<div class="auth-grid">
+
+<div class="panel">
+
+<div class="eyebrow">New Enquiry</div>
+
+<h2 style="font:500 28px 'Playfair Display'">
+    Request an Experience
+</h2>
+
+<form id="bookingForm">
+
+<div class="form-grid">
+
+<div class="field full">
+    <label>Artist, Team or Event</label>
+    <input id="performer" required maxlength="160" placeholder="Enter event or artist name">
+</div>
+
+<div class="field">
+    <label>Country</label>
+    <input id="eventCountry" required maxlength="100" placeholder="Event country">
+</div>
+
+<div class="field">
+    <label>City</label>
+    <input id="city" required maxlength="100" placeholder="Event city">
+</div>
+
+<div class="field">
+    <label>Preferred Event Date</label>
+    <input id="eventDate" type="date">
+</div>
+
+<div class="field">
+    <label>Ticket Preference</label>
+    <select id="ticketType">
+        <option value="Standard">Standard</option>
+        <option value="Premium">Premium</option>
+        <option value="VIP">VIP</option>
+        <option value="Not sure">Not sure yet</option>
+    </select>
+</div>
+
+<div class="field">
+    <label>Number of Tickets</label>
+    <select id="quantity">
+        <option>1</option>
+        <option selected>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+    </select>
+</div>
+
+<div class="field full">
+    <label>Additional Details</label>
+    <textarea id="notes" maxlength="1500" placeholder="Tell us about your preferences or requirements."></textarea>
+</div>
+
+</div>
+
+<div class="notice">
+    Your request will be marked Pending while it is reviewed.
+    Please do not send payment until you receive and verify
+    the details from StarPass.
+</div>
+
+<button class="btn" type="submit">Submit Ticket Request</button>
+
+<div id="bookingMessage" class="message"></div>
+
+</form>
+</div>
+
+<div class="panel">
+
+<div class="eyebrow">Your Account</div>
+<h3 style="font:500 23px 'Playfair Display'">Request History</h3>
+
+<p class="tiny">
+    Only you can view the requests submitted from your account.
+</p>
+
+<div id="customerRequests" class="empty">
+    Loading your requests...
+</div>
+
+</div>
+</div>
+</div>
+</section>
+
+<!-- ADMIN DASHBOARD -->
+
+<section id="adminView" class="dashboard hidden">
+<div class="wrap">
+
+<div class="dash-top">
+<div>
+    <div class="eyebrow">StarPass / Private Workspace</div>
+    <h1>Administration</h1>
+    <p>Review incoming enquiries and manage customer requests.</p>
+</div>
+
+<span class="pill">Administrator Access</span>
+</div>
+
+<div class="stats">
+
+<div class="stat">
+    <span>Total Requests</span>
+    <strong id="statTotal">—</strong>
+</div>
+
+<div class="stat">
+    <span>Pending</span>
+    <strong id="statPending">—</strong>
+</div>
+
+<div class="stat">
+    <span>Under Review</span>
+    <strong id="statReview">—</strong>
+</div>
+
+<div class="stat">
+    <span>Confirmed</span>
+    <strong id="statConfirmed">—</strong>
+</div>
+
+</div>
+
+<div class="panel">
+
+<div class="section-head">
+    <div class="eyebrow">Booking Management</div>
+    <h2 style="font-size:29px">Customer Requests</h2>
+</div>
+
+<div class="field" style="max-width:350px;margin-bottom:17px">
+    <label>Filter Requests</label>
+    <select id="adminFilter" onchange="renderAdminTable()">
+        <option value="All">All Statuses</option>
+        <option>Pending</option>
+        <option>Under Review</option>
+        <option>Confirmed</option>
+        <option>Declined</option>
+    </select>
+</div>
+
+<button class="btn secondary small" onclick="loadAdminRequests()">
+    Refresh Requests
+</button>
+
+<div id="adminTable" class="empty" style="margin-top:15px">
+    Loading requests...
+</div>
+
+<div id="adminMessage" class="message"></div>
+
+</div>
+
+<p class="tiny" style="margin-top:15px">
+    Administrative actions are protected by Supabase Row Level Security.
+    Never share your administrator login.
+</p>
+
+</div>
+</section>
+
+<footer class="footer">
+<div class="wrap footer-inner">
+
+<span>© <span id="year"></span> StarPass. All rights reserved.</span>
+
+<span>
+    Questions?
+    <a class="link" href="mailto:starpasstickets@gmail.com">
+        starpasstickets@gmail.com
+    </a>
+</span>
+
+<span>Independent ticket-request concierge. No affiliation is implied.</span>
+
+</div>
 </footer>
 
 <script>
 
 // ==========================================
-// SUPABASE CONNECTION
+// SUPABASE CONFIGURATION
 // ==========================================
 
 const SUPABASE_URL = "https://rfelrcunkczlunswqmer.supabase.co";
 
-const SUPABASE_KEY = "sb_publishable_sxjlh7kAAiyrESnjR_9FZQ_Fk4Ik_nu";
+const SUPABASE_ANON_KEY =
+"sb_publishable_sxjlh7kAAiyrESnjR_9FZQ_Fk4Ik_nu";
 
 const db = window.supabase.createClient(
     SUPABASE_URL,
-    SUPABASE_KEY
+    SUPABASE_ANON_KEY
 );
 
 let currentUser = null;
+let isAdmin = false;
+let adminRows = [];
+let authMode = "login";
+
+const $ = id => document.getElementById(id);
 
 
 // ==========================================
-// GENERAL FUNCTIONS
+// PAGE NAVIGATION
 // ==========================================
 
-document.getElementById("year").textContent =
-    new Date().getFullYear();
+function showOnly(id) {
 
-function toggleMenu() {
-    document.getElementById("navLinks").classList.toggle("show");
-}
-
-function closeMenu() {
-    document.getElementById("navLinks").classList.remove("show");
-}
-
-function showMessage(elementId, message, type = "error") {
-    const element = document.getElementById(elementId);
-
-    element.textContent = message;
-    element.className = type;
-}
-
-function clearMessages() {
-    document.getElementById("authMessage").textContent = "";
-    document.getElementById("bookingMessage").textContent = "";
-    document.getElementById("dashboardMessage").textContent = "";
-}
-
-
-// ==========================================
-// AUTHENTICATION TABS
-// ==========================================
-
-function showAuth(type) {
-
-    document.getElementById("loginForm").style.display =
-        type === "login" ? "block" : "none";
-
-    document.getElementById("signupForm").style.display =
-        type === "signup" ? "block" : "none";
-
-    document.getElementById("forgotForm").style.display = "none";
-
-    document.getElementById("updatePasswordForm").style.display = "none";
-
-    document.getElementById("loginTab").classList.toggle(
-        "active",
-        type === "login"
-    );
-
-    document.getElementById("signupTab").classList.toggle(
-        "active",
-        type === "signup"
-    );
-
-    clearMessages();
-}
-
-function showForgotPassword() {
-
-    document.getElementById("loginForm").style.display = "none";
-    document.getElementById("signupForm").style.display = "none";
-    document.getElementById("forgotForm").style.display = "block";
-
-    document.getElementById("loginTab").classList.remove("active");
-    document.getElementById("signupTab").classList.remove("active");
-
-    document.getElementById("resetEmail").value =
-        document.getElementById("loginEmail").value;
-
-    clearMessages();
-}
-
-
-// ==========================================
-// SIGN UP
-// ==========================================
-
-async function signupUser() {
-
-    clearMessages();
-
-    const name = document.getElementById("signupName").value.trim();
-    const email = document.getElementById("signupEmail").value.trim();
-    const country = document.getElementById("signupCountry").value.trim();
-    const password = document.getElementById("signupPassword").value;
-
-    if (!name || !email || !country || !password) {
-        showMessage("authMessage", "Please complete all fields.");
-        return;
-    }
-
-    if (password.length < 6) {
-        showMessage("authMessage", "Your password must contain at least 6 characters.");
-        return;
-    }
-
-    showMessage("authMessage", "Creating your account...", "success");
-
-    const { data, error } = await db.auth.signUp({
-
-        email: email,
-
-        password: password,
-
-        options: {
-            data: {
-                full_name: name,
-                country: country
-            },
-
-            emailRedirectTo: "https://booknowglobal.github.io/starpass-tickets/"
-        }
-
+    [
+        "publicView",
+        "authView",
+        "customerView",
+        "adminView"
+    ].forEach(section => {
+        $(section).classList.toggle("hidden", section !== id);
     });
 
-    if (error) {
-        showMessage("authMessage", error.message);
-        return;
-    }
-
-    if (data.session) {
-        showMessage("authMessage", "Your account has been created successfully.", "success");
-        await checkSession();
-    } else {
-        showMessage(
-            "authMessage",
-            "Registration successful! Please check your email to confirm your account before signing in.",
-            "success"
-        );
-    }
 }
 
+function showPublic() {
+    showOnly("publicView");
+}
 
-// ==========================================
-// LOGIN
-// ==========================================
+function showAuth() {
+    showOnly("authView");
+    setAuthMode("login");
+}
 
-async function loginUser() {
+function setAuthMode(mode) {
 
-    clearMessages();
+    authMode = mode;
 
-    const email = document.getElementById("loginEmail").value.trim();
-    const password = document.getElementById("loginPassword").value;
-
-    if (!email || !password) {
-        showMessage("authMessage", "Please enter your email and password.");
-        return;
-    }
-
-    showMessage("authMessage", "Signing you in...", "success");
-
-    const { error } = await db.auth.signInWithPassword({
-        email: email,
-        password: password
+    ["login","signup","reset"].forEach(x => {
+        $(x + "Tab").classList.toggle("active",x === mode);
     });
 
-    if (error) {
-        showMessage("authMessage", error.message);
-        return;
-    }
+    $("nameField").classList.toggle("hidden",mode !== "signup");
 
-    await checkSession();
+    $("countryField").classList.toggle("hidden",mode !== "signup");
+
+    $("passwordField").classList.toggle("hidden",mode === "reset");
+
+    $("authPassword").required = mode !== "reset";
+
+    $("authSubmit").textContent =
+        mode === "login" ? "Sign In" :
+        mode === "signup" ? "Create Account" :
+        "Send Reset Link";
+
+    $("authMessage").textContent = "";
 }
 
 
 // ==========================================
-// FORGOT PASSWORD
+// MESSAGE HELPERS
 // ==========================================
 
-async function sendPasswordReset() {
+function message(id,text,type="") {
 
-    const email = document.getElementById("resetEmail").value.trim();
+    const el = $(id);
 
-    if (!email) {
-        showMessage("authMessage", "Please enter your email address.");
-        return;
-    }
+    el.textContent = text;
 
-    showMessage("authMessage", "Sending password reset email...", "success");
+    el.className = "message " + type;
 
-    const { error } = await db.auth.resetPasswordForEmail(email, {
-        redirectTo: "https://booknowglobal.github.io/starpass-tickets/"
+}
+
+function escapeHtml(value) {
+
+    return String(value ?? "").replace(/[&<>"']/g,c => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+    }[c]));
+
+}
+
+function prettyDate(value) {
+
+    if(!value) return "Not specified";
+
+    const d = new Date(value + "T00:00:00");
+
+    if(isNaN(d)) return escapeHtml(value);
+
+    return d.toLocaleDateString(undefined,{
+        year:"numeric",
+        month:"short",
+        day:"numeric"
     });
 
-    if (error) {
-        showMessage("authMessage", error.message);
-        return;
-    }
+}
 
-    showMessage(
-        "authMessage",
-        "Password reset instructions have been sent. Please check your email.",
-        "success"
-    );
+function statusClass(status) {
+
+    return String(status || "Pending")
+        .toLowerCase()
+        .replace(/\s+/g,"-");
+
 }
 
 
 // ==========================================
-// UPDATE PASSWORD
+// SIGNUP / LOGIN / PASSWORD RESET
 // ==========================================
 
-async function updatePassword() {
+$("authForm").addEventListener("submit",async e => {
 
-    const password = document.getElementById("newPassword").value;
+    e.preventDefault();
 
-    if (!password || password.length < 6) {
-        showMessage("authMessage", "Please enter a password with at least 6 characters.");
-        return;
-    }
+    message("authMessage","Working...");
 
-    const { error } = await db.auth.updateUser({
-        password: password
-    });
+    const email = $("authEmail").value.trim();
 
-    if (error) {
-        showMessage("authMessage", error.message);
-        return;
-    }
+    const password = $("authPassword").value;
 
-    showMessage(
-        "authMessage",
-        "Your password has been updated successfully. You can now use your new password.",
-        "success"
-    );
+    try {
 
-    document.getElementById("newPassword").value = "";
-}
+        if(authMode === "signup") {
 
+            const full_name = $("fullName").value.trim();
 
-// ==========================================
-// SESSION MANAGEMENT
-// ==========================================
+            const country = $("accountCountry").value.trim();
 
-async function checkSession() {
+            if(!full_name || !country) {
+                message("authMessage","Please enter your name and country.","error");
+                return;
+            }
 
-    const { data, error } = await db.auth.getSession();
+            const {data,error} = await db.auth.signUp({
 
-    if (error) {
-        return;
-    }
+                email,
+                password,
 
-    currentUser = data.session ? data.session.user : null;
+                options:{
+                    data:{
+                        full_name,
+                        country
+                    }
+                }
 
-    if (currentUser) {
-        showDashboard();
-    } else {
-        hideDashboard();
-    }
-}
-
-function showDashboard() {
-
-    document.getElementById("authCard").style.display = "none";
-
-    document.getElementById("dashboard").style.display = "block";
-
-    document.getElementById("welcomeMessage").textContent =
-        "Signed in as " + currentUser.email;
-
-    loadBookings();
-}
-
-function hideDashboard() {
-
-    document.getElementById("authCard").style.display = "block";
-
-    document.getElementById("dashboard").style.display = "none";
-}
-
-
-// ==========================================
-// LOGOUT
-// ==========================================
-
-async function logoutUser() {
-
-    const { error } = await db.auth.signOut();
-
-    if (error) {
-        showMessage("dashboardMessage", error.message);
-        return;
-    }
-
-    currentUser = null;
-
-    hideDashboard();
-
-    showAuth("login");
-
-    document.getElementById("loginEmail").value = "";
-
-    document.getElementById("loginPassword").value = "";
-
-    document.getElementById("account").scrollIntoView({
-        behavior: "smooth"
-    });
-}
-
-
-// ==========================================
-// SUBMIT TICKET REQUEST
-// ==========================================
-
-document.getElementById("bookingForm").addEventListener(
-    "submit",
-    async function(event) {
-
-        event.preventDefault();
-
-        clearMessages();
-
-        if (!currentUser) {
-
-            showMessage(
-                "bookingMessage",
-                "Please create an account or sign in before submitting a request."
-            );
-
-            document.getElementById("account").scrollIntoView({
-                behavior: "smooth"
             });
 
-            return;
+            if(error) throw error;
+
+            if(data.session) {
+                await routeUser(data.user);
+            } else {
+                message(
+                    "authMessage",
+                    "Account created. Please check your email to confirm your address, then sign in.",
+                    "success"
+                );
+            }
+
         }
 
-        const performer =
-            document.getElementById("performer").value.trim();
+        else if(authMode === "login") {
 
-        const country =
-            document.getElementById("country").value;
+            const {data,error} = await db.auth.signInWithPassword({
+                email,
+                password
+            });
 
-        const city =
-            document.getElementById("city").value.trim();
+            if(error) throw error;
 
-        const eventDate =
-            document.getElementById("eventDate").value || null;
+            await routeUser(data.user);
 
-        const quantity =
-            parseInt(document.getElementById("quantity").value);
+        }
 
-        const ticketType =
-            document.getElementById("ticketType").value;
+        else {
 
-        const notes =
-            document.getElementById("notes").value.trim();
-
-        if (!performer || !country || !city || !quantity) {
-
-            showMessage(
-                "bookingMessage",
-                "Please complete all required fields."
+            const {error} = await db.auth.resetPasswordForEmail(
+                email,
+                {
+                    redirectTo:location.origin + location.pathname
+                }
             );
 
-            return;
-        }
+            if(error) throw error;
 
-        const button = document.getElementById("bookingButton");
-
-        button.disabled = true;
-        button.textContent = "Submitting Request...";
-
-        const { error } = await db
-            .from("booking_requests")
-            .insert([{
-
-                user_id: currentUser.id,
-
-                performer: performer,
-
-                country: country,
-
-                city: city,
-
-                event_date: eventDate,
-
-                ticket_type: ticketType || null,
-
-                quantity: quantity,
-
-                notes: notes || null,
-
-                status: "Pending"
-
-            }]);
-
-        button.disabled = false;
-        button.textContent = "Submit Ticket Request";
-
-        if (error) {
-
-            showMessage(
-                "bookingMessage",
-                "Unable to submit your request: " + error.message
+            message(
+                "authMessage",
+                "If the address is registered, a password-reset email will arrive shortly.",
+                "success"
             );
 
-            return;
         }
 
-        showMessage(
-            "bookingMessage",
-            "Your ticket request has been submitted successfully. You can follow its status in your dashboard.",
-            "success"
-        );
+    } catch(err) {
 
-        document.getElementById("bookingForm").reset();
-
-        await loadBookings();
-
-        document.getElementById("dashboard").scrollIntoView({
-            behavior: "smooth"
-        });
-
-    }
-);
-
-
-// ==========================================
-// LOAD CUSTOMER BOOKINGS
-// ==========================================
-
-async function loadBookings() {
-
-    if (!currentUser) return;
-
-    const bookingList = document.getElementById("bookingList");
-
-    bookingList.innerHTML =
-        '<p style="color:var(--muted);">Loading your requests...</p>';
-
-    const { data, error } = await db
-        .from("booking_requests")
-        .select("*")
-        .eq("user_id", currentUser.id)
-        .order("created_at", { ascending: false });
-
-    if (error) {
-
-        bookingList.innerHTML =
-            '<p class="error">Unable to load your requests: ' +
-            escapeHTML(error.message) + '</p>';
-
-        return;
-    }
-
-    if (!data || data.length === 0) {
-
-        bookingList.innerHTML =
-            '<p style="color:var(--muted);">You have not submitted any ticket requests yet.</p>';
-
-        return;
-    }
-
-    bookingList.innerHTML = "";
-
-    data.forEach(function(booking) {
-
-        const item = document.createElement("div");
-
-        item.className = "booking-item";
-
-        const date = booking.event_date
-            ? escapeHTML(booking.event_date)
-            : "Not specified";
-
-        const status = escapeHTML(booking.status || "Pending");
-
-        item.innerHTML = `
-
-            <h4>${escapeHTML(booking.performer)}</h4>
-
-            <p><strong>Country:</strong> ${escapeHTML(booking.country)}</p>
-
-            <p><strong>City / Venue:</strong> ${escapeHTML(booking.city)}</p>
-
-            <p><strong>Preferred Date:</strong> ${date}</p>
-
-            <p><strong>Ticket Type:</strong> ${escapeHTML(booking.ticket_type || "Not specified")}</p>
-
-            <p><strong>Quantity:</strong> ${Number(booking.quantity)}</p>
-
-            <p><strong>Submitted:</strong> ${new Date(booking.created_at).toLocaleDateString()}</p>
-
-            <span class="status">${status}</span>
-
-        `;
-
-        bookingList.appendChild(item);
-
-    });
-}
-
-
-// ==========================================
-// SAFE TEXT DISPLAY
-// ==========================================
-
-function escapeHTML(value) {
-
-    return String(value ?? "").replace(/[&<>"']/g, function(character) {
-
-        const entities = {
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            '"': "&quot;",
-            "'": "&#039;"
-        };
-
-        return entities[character];
-
-    });
-}
-
-
-// ==========================================
-// AUTH STATE LISTENER
-// ==========================================
-
-db.auth.onAuthStateChange(async function(event, session) {
-
-    currentUser = session ? session.user : null;
-
-    if (event === "PASSWORD_RECOVERY") {
-
-        document.getElementById("authCard").style.display = "block";
-
-        document.getElementById("dashboard").style.display = "none";
-
-        document.getElementById("loginForm").style.display = "none";
-
-        document.getElementById("signupForm").style.display = "none";
-
-        document.getElementById("forgotForm").style.display = "none";
-
-        document.getElementById("updatePasswordForm").style.display = "block";
-
-        document.getElementById("loginTab").style.display = "none";
-
-        document.getElementById("signupTab").style.display = "none";
-
-        showMessage(
+        message(
             "authMessage",
-            "Please enter your new password.",
-            "success"
+            err.message || "Something went wrong. Please try again.",
+            "error"
         );
-
-        return;
-    }
-
-    if (event === "SIGNED_IN" || event === "INITIAL_SESSION") {
-
-        if (currentUser) {
-            showDashboard();
-        }
-
-    }
-
-    if (event === "SIGNED_OUT") {
-
-        hideDashboard();
 
     }
 
@@ -1710,10 +1134,582 @@ db.auth.onAuthStateChange(async function(event, session) {
 
 
 // ==========================================
-// INITIAL PAGE CHECK
+// USER ROUTING AND ADMIN VERIFICATION
 // ==========================================
 
-checkSession();
+async function routeUser(user) {
+
+    currentUser = user;
+
+    $("navSignIn").classList.add("hidden");
+
+    $("navLogout").classList.remove("hidden");
+
+    const {data:profile,error} = await db
+        .from("profiles")
+        .select("full_name,role")
+        .eq("id",user.id)
+        .maybeSingle();
+
+    if(error) {
+
+        showOnly("customerView");
+
+        $("customerName").textContent = user.email || "there";
+
+        message(
+            "bookingMessage",
+            "Your profile could not be fully loaded. Please contact support if this continues.",
+            "error"
+        );
+
+        return;
+    }
+
+    isAdmin = profile?.role === "admin";
+
+    if(isAdmin) {
+
+        showOnly("adminView");
+
+        await loadAdminRequests();
+
+    } else {
+
+        showOnly("customerView");
+
+        $("customerName").textContent =
+            profile?.full_name ||
+            user.user_metadata?.full_name ||
+            "there";
+
+        await loadCustomerRequests();
+
+    }
+
+}
+
+
+// ==========================================
+// SIGN OUT
+// ==========================================
+
+async function signOut() {
+
+    await db.auth.signOut();
+
+    currentUser = null;
+
+    isAdmin = false;
+
+    adminRows = [];
+
+    $("navLogout").classList.add("hidden");
+
+    $("navSignIn").classList.remove("hidden");
+
+    showPublic();
+
+}
+
+
+// ==========================================
+// CUSTOMER BOOKING SUBMISSION
+// ==========================================
+
+$("bookingForm").addEventListener("submit",async e => {
+
+    e.preventDefault();
+
+    if(!currentUser) {
+        showAuth();
+        return;
+    }
+
+    message("bookingMessage","Submitting your request...");
+
+    const row = {
+
+        user_id:currentUser.id,
+
+        performer:$("performer").value.trim(),
+
+        country:$("eventCountry").value.trim(),
+
+        city:$("city").value.trim(),
+
+        event_date:$("eventDate").value || null,
+
+        ticket_type:$("ticketType").value,
+
+        quantity:Number($("quantity").value),
+
+        notes:$("notes").value.trim(),
+
+        status:"Pending"
+
+    };
+
+    try {
+
+        const {error} = await db
+            .from("booking_requests")
+            .insert(row);
+
+        if(error) throw error;
+
+        $("bookingForm").reset();
+
+        message(
+            "bookingMessage",
+            "Your request has been submitted successfully and is now Pending review.",
+            "success"
+        );
+
+        await loadCustomerRequests();
+
+    } catch(err) {
+
+        message(
+            "bookingMessage",
+            err.message || "We could not submit your request. Please try again.",
+            "error"
+        );
+
+    }
+
+});
+
+
+// ==========================================
+// CUSTOMER REQUEST HISTORY
+// ==========================================
+
+async function loadCustomerRequests() {
+
+    $("customerRequests").textContent = "Loading your requests...";
+
+    const {data,error} = await db
+        .from("booking_requests")
+        .select("id,performer,country,city,event_date,ticket_type,quantity,status,created_at")
+        .eq("user_id",currentUser.id)
+        .order("created_at",{ascending:false});
+
+    if(error) {
+
+        $("customerRequests").textContent =
+            "Unable to load requests: " + error.message;
+
+        return;
+
+    }
+
+    if(!data || !data.length) {
+
+        $("customerRequests").innerHTML =
+            '<div class="empty">You have not submitted any requests yet.</div>';
+
+        return;
+
+    }
+
+    $("customerRequests").innerHTML = data.map(r => `
+
+        <div style="padding:15px 0;border-bottom:1px solid #39372f">
+
+            <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap">
+
+                <strong>${escapeHtml(r.performer)}</strong>
+
+                <span class="status ${statusClass(r.status)}">
+                    ${escapeHtml(r.status || "Pending")}
+                </span>
+
+            </div>
+
+            <div class="tiny">
+                ${escapeHtml(r.city)}, ${escapeHtml(r.country)}
+                · ${prettyDate(r.event_date)}
+                · ${escapeHtml(r.quantity)} ticket(s)
+            </div>
+
+            <div class="tiny">
+                ${escapeHtml(r.ticket_type)}
+                · Submitted ${new Date(r.created_at).toLocaleDateString()}
+            </div>
+
+        </div>
+
+    `).join("");
+
+}
+
+
+// ==========================================
+// ADMIN DASHBOARD - LOAD REQUESTS
+// ==========================================
+
+async function loadAdminRequests() {
+
+    $("adminTable").textContent = "Loading requests...";
+
+    message("adminMessage","");
+
+    const {data,error} = await db
+        .from("booking_requests")
+        .select("*")
+        .order("created_at",{ascending:false});
+
+    if(error) {
+
+        $("adminTable").textContent =
+            "Could not load requests: " + error.message;
+
+        return;
+
+    }
+
+    adminRows = data || [];
+
+    const counts = {
+        Pending:0,
+        "Under Review":0,
+        Confirmed:0,
+        Declined:0
+    };
+
+    adminRows.forEach(r => {
+
+        if(counts[r.status] !== undefined) {
+            counts[r.status]++;
+        }
+
+    });
+
+    $("statTotal").textContent = adminRows.length;
+
+    $("statPending").textContent = counts.Pending;
+
+    $("statReview").textContent = counts["Under Review"];
+
+    $("statConfirmed").textContent = counts.Confirmed;
+
+
+    // Retrieve customer profiles separately.
+    // This does not depend on a foreign-key relationship.
+
+    const ids = [
+        ...new Set(
+            adminRows.map(r => r.user_id).filter(Boolean)
+        )
+    ];
+
+    let profiles = {};
+
+    if(ids.length) {
+
+        const p = await db
+            .from("profiles")
+            .select("id,full_name,email,country")
+            .in("id",ids);
+
+        if(!p.error) {
+
+            (p.data || []).forEach(x => {
+                profiles[x.id] = x;
+            });
+
+        }
+
+    }
+
+    adminRows = adminRows.map(r => ({
+        ...r,
+        _profile:profiles[r.user_id] || {}
+    }));
+
+    renderAdminTable();
+
+}
+
+
+// ==========================================
+// ADMIN DASHBOARD - DISPLAY REQUESTS
+// ==========================================
+
+function renderAdminTable() {
+
+    const filter = $("adminFilter").value;
+
+    const rows = adminRows.filter(r => {
+
+        return filter === "All" ||
+            (r.status || "Pending") === filter;
+
+    });
+
+    if(!rows.length) {
+
+        $("adminTable").innerHTML =
+            '<div class="empty">No requests found for this filter.</div>';
+
+        return;
+
+    }
+
+    $("adminTable").innerHTML = `
+
+    <div class="table-wrap">
+
+    <table>
+
+    <thead>
+    <tr>
+        <th>Customer</th>
+        <th>Event Request</th>
+        <th>Preferences</th>
+        <th>Submitted</th>
+        <th>Status</th>
+        <th>Update Status</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    ${rows.map(r => `
+
+        <tr>
+
+            <td>
+
+                <strong>
+                    ${escapeHtml(r._profile.full_name || "Customer")}
+                </strong>
+
+                <br>
+
+                <span class="tiny">
+                    ${escapeHtml(r._profile.email || "Email unavailable")}
+                </span>
+
+                <br>
+
+                <span class="tiny">
+                    ${escapeHtml(r._profile.country || "")}
+                </span>
+
+            </td>
+
+            <td>
+
+                <strong>${escapeHtml(r.performer)}</strong>
+
+                <br>
+
+                ${escapeHtml(r.city)}, ${escapeHtml(r.country)}
+
+                <br>
+
+                <span class="tiny">
+                    ${prettyDate(r.event_date)}
+                </span>
+
+            </td>
+
+            <td>
+
+                ${escapeHtml(r.ticket_type)}
+
+                <br>
+
+                ${escapeHtml(r.quantity)} ticket(s)
+
+                <br>
+
+                <span class="tiny">
+                    ${escapeHtml(r.notes || "No additional notes")}
+                </span>
+
+            </td>
+
+            <td>
+                ${r.created_at
+                    ? new Date(r.created_at).toLocaleDateString()
+                    : "—"}
+            </td>
+
+            <td>
+
+                <span class="status ${statusClass(r.status)}">
+                    ${escapeHtml(r.status || "Pending")}
+                </span>
+
+            </td>
+
+            <td>
+
+                <select id="status-${escapeHtml(r.id)}">
+
+                    <option ${r.status === "Pending" ? "selected" : ""}>
+                        Pending
+                    </option>
+
+                    <option ${r.status === "Under Review" ? "selected" : ""}>
+                        Under Review
+                    </option>
+
+                    <option ${r.status === "Confirmed" ? "selected" : ""}>
+                        Confirmed
+                    </option>
+
+                    <option ${r.status === "Declined" ? "selected" : ""}>
+                        Declined
+                    </option>
+
+                </select>
+
+                <button
+                    class="btn small"
+                    style="margin-top:7px"
+                    onclick="updateRequest('${escapeHtml(r.id)}')">
+
+                    Save
+
+                </button>
+
+            </td>
+
+        </tr>
+
+    `).join("")}
+
+    </tbody>
+    </table>
+    </div>
+
+    `;
+
+}
+
+
+// ==========================================
+// ADMIN DASHBOARD - UPDATE STATUS
+// ==========================================
+
+async function updateRequest(id) {
+
+    const status = $("status-" + id)?.value;
+
+    if(!status) return;
+
+    message("adminMessage","Saving status...");
+
+    const {error} = await db
+        .from("booking_requests")
+        .update({status})
+        .eq("id",id);
+
+    if(error) {
+
+        message(
+            "adminMessage",
+            "Update failed: " + error.message,
+            "error"
+        );
+
+        return;
+
+    }
+
+    message(
+        "adminMessage",
+        "Request status updated successfully.",
+        "success"
+    );
+
+    await loadAdminRequests();
+
+}
+
+
+// ==========================================
+// PASSWORD RECOVERY
+// ==========================================
+
+db.auth.onAuthStateChange(async(event,session) => {
+
+    if(event === "PASSWORD_RECOVERY") {
+
+        showOnly("authView");
+
+        setAuthMode("login");
+
+        $("authPassword").autocomplete = "new-password";
+
+        $("authSubmit").textContent = "Update Password";
+
+        $("authMessage").textContent = "Enter your new password.";
+
+        $("authForm").onsubmit = async e => {
+
+            e.preventDefault();
+
+            const {error} = await db.auth.updateUser({
+                password:$("authPassword").value
+            });
+
+            if(error) {
+
+                message("authMessage",error.message,"error");
+
+            } else {
+
+                message(
+                    "authMessage",
+                    "Password updated successfully. You can now sign in.",
+                    "success"
+                );
+
+                $("authForm").onsubmit = null;
+
+                setAuthMode("login");
+
+            }
+
+        };
+
+    }
+
+    if(event === "SIGNED_OUT") {
+
+        currentUser = null;
+
+        isAdmin = false;
+
+        showPublic();
+
+    }
+
+});
+
+
+// ==========================================
+// AUTOMATIC SESSION RESTORATION
+// ==========================================
+
+$("year").textContent = new Date().getFullYear();
+
+(async function() {
+
+    const {data:{session}} = await db.auth.getSession();
+
+    if(session?.user) {
+
+        await routeUser(session.user);
+
+    }
+
+})();
 
 </script>
 
